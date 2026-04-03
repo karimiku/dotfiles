@@ -78,9 +78,7 @@ echo ""
 echo "Installing Neovim plugins (lazy.nvim)..."
 nvim --headless "+Lazy! sync" +qa 2>/dev/null || true
 
-# ----- Vim プラグインインストール -----
-echo "Installing Vim plugins (vim-plug)..."
-vim +PlugInstall +qall 2>/dev/null || true
+# Vim プラグインは手動: vim → :PlugInstall
 
 echo ""
 echo "=== Done! ==="

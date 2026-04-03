@@ -1,0 +1,111 @@
+" ===== vim-plug プラグインマネージャー =====
+call plug#begin('~/.vim/plugged')
+
+" TypeScript/JavaScript/React開発
+Plug 'neoclide/coc.nvim', {'branch': 'release'}  " LSPクライアント - VSCode並みの補完
+Plug 'pangloss/vim-javascript'                    " JavaScript構文強化
+Plug 'leafgarland/typescript-vim'                 " TypeScript構文
+Plug 'maxmellon/vim-jsx-pretty'                   " JSX/TSXシンタックスハイライト
+Plug 'styled-components/vim-styled-components', { 'branch': 'main' }  " styled-components
+
+" コード補完とスニペット
+Plug 'honza/vim-snippets'                         " 汎用スニペット集
+
+" ファイル検索・ナビゲーション
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'                           " ファイルやコード検索
+
+" Git統合
+Plug 'tpope/vim-fugitive'                         " Git操作
+
+" その他便利ツール
+Plug 'jiangmiao/auto-pairs'                       " 括弧の自動補完
+Plug 'preservim/nerdtree'                         " ファイルツリー表示
+Plug 'vim-airline/vim-airline'                    " ステータスライン強化
+Plug 'vim-airline/vim-airline-themes'
+
+call plug#end()
+
+" ===== 基本設定 =====
+syntax enable
+set background=dark
+colorscheme solarized
+
+" 行番号表示
+set number
+set relativenumber
+
+" インデント設定（React/JSでは2スペースが一般的）
+set tabstop=2
+set shiftwidth=2
+set expandtab
+set autoindent
+set smartindent
+
+" 検索設定
+set ignorecase
+set smartcase
+set hlsearch
+set incsearch
+
+" エンコーディング
+set encoding=utf-8
+set fileencoding=utf-8
+
+" バックアップ・スワップファイル無効化
+set nobackup
+set noswapfile
+
+" ===== coc.nvim設定 =====
+" Tab補完
+inoremap <silent><expr> <TAB>
+      \ coc#pum#visible() ? coc#pum#next(1) :
+      \ CheckBackspace() ? "\<Tab>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
+
+" Enterで補完確定
+inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+function! CheckBackspace() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" Ctrl+Spaceで補完を手動トリガー
+inoremap <silent><expr> <c-space> coc#refresh()
+
+" エラー・警告間のジャンプ
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+" コード定義へジャンプ
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" ドキュメント表示
+nnoremap <silent> K :call ShowDocumentation()<CR>
+
+function! ShowDocumentation()
+  if CocAction('hasProvider', 'hover')
+    call CocActionAsync('doHover')
+  else
+    call feedkeys('K', 'in')
+  endif
+endfunction
+
+" リネーム
+nmap <leader>rn <Plug>(coc-rename)
+
+" ===== NERDTree設定 =====
+" Ctrl+nでトグル
+nnoremap <C-n> :NERDTreeToggle<CR>
+
+" ===== fzf設定 =====
+" Ctrl+pでファイル検索
+nnoremap <C-p> :Files<CR>
+" Ctrl+fでコード内検索
+nnoremap <C-f> :Rg<CR>

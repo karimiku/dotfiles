@@ -1,0 +1,29 @@
+theme = Night Owl
+font-family = Menlo
+# theme = GruvboxDark
+# font-family = Meslo LGS Nerd Font Mono
+# font-family = CaskaydiaMono Nerd Font
+# font-family = CaskaydiaCove Nerd Font
+font-size = 14
+background = #00080c
+background-opacity = 0.75
+background-blur-radius = 15
+gtk-titlebar = false
+# custom-shader = /home/chris/bloom.glsl
+#custom-shader = /home/chris/crt.glsl
+
+# Start tmux session automaticallyn
+command = /opt/homebrew/bin/tmux new-session
+
+# Tab management keybindings
+keybind = ctrl+t=new_tab
+keybind = ctrl+one=goto_tab:1
+keybind = ctrl+two=goto_tab:2
+keybind = ctrl+three=goto_tab:3
+keybind = ctrl+four=goto_tab:4
+keybind = ctrl+five=goto_tab:5
+keybind = ctrl+six=goto_tab:6
+keybind = ctrl+seven=goto_tab:7
+keybind = ctrl+eight=goto_tab:8
+keybind = ctrl+nine=goto_tab:9
+

@@ -84,6 +84,11 @@ for f in "${FILES_TO_CHECK[@]}"; do
   fi
 done
 
+# ----- stow先の親ディレクトリを作成 -----
+mkdir -p "$HOME/.config/ghostty"
+mkdir -p "$HOME/.config/nvim"
+mkdir -p "$HOME/.config/git"
+
 # ----- Stow でシンボリックリンク作成 -----
 echo ""
 echo "Stowing dotfiles..."

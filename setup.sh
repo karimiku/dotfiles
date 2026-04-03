@@ -61,11 +61,33 @@ if [ ! -f "$HOME/.vim/autoload/plug.vim" ]; then
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 fi
 
+# ----- 既存ファイルをバックアップ -----
+echo ""
+echo "Backing up existing configs..."
+
+BACKUP_DIR="$HOME/.dotfiles-backup/$(date +%Y%m%d-%H%M%S)"
+FILES_TO_CHECK=(
+  ".zshrc" ".zshenv" ".zprofile" ".p10k.zsh"
+  ".vimrc" ".tmux.conf" ".gitconfig" ".gitignore"
+  ".config/ghostty/config"
+  ".config/nvim"
+  ".config/git/ignore"
+)
+
+for f in "${FILES_TO_CHECK[@]}"; do
+  target="$HOME/$f"
+  # シンボリックリンクでない実ファイル/ディレクトリがあればバックアップ
+  if [ -e "$target" ] && [ ! -L "$target" ]; then
+    mkdir -p "$BACKUP_DIR/$(dirname "$f")"
+    mv "$target" "$BACKUP_DIR/$f"
+    echo "  backed up: $f"
+  fi
+done
+
 # ----- Stow でシンボリックリンク作成 -----
 echo ""
 echo "Stowing dotfiles..."
 
-# dot-* を .* にリネームしてリンクする stow の dot convention
 STOW_OPTS="--dotfiles --restow --target=$HOME --dir=$DOTFILES_DIR"
 
 for pkg in zsh vim tmux git ghostty nvim; do

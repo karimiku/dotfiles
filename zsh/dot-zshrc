@@ -112,7 +112,7 @@ source $ZSH/oh-my-zsh.sh
 # eval "$(starship init zsh)"
 
 # pnpm
-export PNPM_HOME="$HOME/Library/pnpm"
+export PNPM_HOME="/Users/kamiriku/Library/pnpm"
 case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
   *) export PATH="$PNPM_HOME:$PATH" ;;
@@ -124,7 +124,7 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 # bun completions
-[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
+[ -s "/Users/kamiriku/.bun/_bun" ] && source "/Users/kamiriku/.bun/_bun"
 
 # bun
 export BUN_INSTALL="$HOME/.bun"
@@ -133,7 +133,7 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 [[ "$TERM_PROGRAM" == "kiro" ]] && . "$(kiro --locate-shell-integration-path zsh)"
 
 # Added by LM Studio CLI (lms)
-export PATH="$PATH:$HOME/.lmstudio/bin"
+export PATH="$PATH:/Users/kamiriku/.lmstudio/bin"
 # End of LM Studio CLI section
 
 export PATH="$HOME/.local/bin:$PATH"
@@ -145,8 +145,8 @@ export CODEX_CLI_ALLOW=yes
 export PATH="/opt/homebrew/bin:$PATH"
 
 # Added by Antigravity
-export PATH="$HOME/.antigravity/antigravity/bin:$PATH"
-export PATH=$PATH:$HOME/go/bin
+export PATH="/Users/kamiriku/.antigravity/antigravity/bin:$PATH"
+export PATH=$PATH:/Users/kamiriku/go/bin
 
 # zsh-autopair plugin
 if [[ -f ~/.zsh/zsh-autopair/autopair.zsh ]]; then
@@ -183,3 +183,6 @@ gwtrmp() {
   local dir="$1"
   git worktree remove "$dir" && git worktree prune
 }
+
+# direnv (nix-direnv 連携)
+eval "$(direnv hook zsh)"

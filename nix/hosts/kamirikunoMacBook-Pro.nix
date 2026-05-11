@@ -39,32 +39,33 @@
     screencapture.location = "~/screenshot";
   };
 
-  # ----- CLI ツール (pure Nix) -----
+  # ----- パッケージ (CLI + Nix で取れる GUI) -----
+  # GUI は /Applications/Nix Apps/ に配置。
+  # アップデートは `nix flake update` → `darwin-rebuild switch`。
   environment.systemPackages = with pkgs; [
+    # CLI
     tmux
     neovim
     fzf
     ripgrep
     figlet
     go
+    # GUI (nixpkgs に darwin ビルドあり)
+    raycast
   ];
 
-  # ----- GUI アプリ (Homebrew Cask 経由) -----
-  # nix-darwin の homebrew モジュール: brew 本体は別途インストール必要
-  # （README の setup 手順参照）
+  # ----- Homebrew (ghostty 専用、他に手段なし) -----
+  # ghostty 公式 flake は macOS では libghostty-vt のみ提供で GUI app は出してない
+  # (AppKit ビルドが Xcode tooling 依存のため Nix 化できない)。
+  # → 現状 brew cask が唯一の実用解。raycast は Nix へ移行済。
   homebrew = {
     enable = true;
     onActivation = {
-      autoUpdate = false;   # switch のたびに brew update しない
-      upgrade = false;      # 既存のbrewパッケージを勝手にアップグレードしない
-      cleanup = "none";     # 宣言してないものは触らない（安全側）
+      autoUpdate = false;
+      upgrade = false;
+      cleanup = "none";
     };
-    # 最低限の GUI アプリのみ宣言的にインストール。
-    # 他（Slack/Outlook/LINE/Dia/OrbStack/Codex 等）は手動 or App Store。
-    casks = [
-      "ghostty"
-      "raycast"
-    ];
+    casks = [ "ghostty" ];
   };
 
   # ----- nix-darwin メタ情報 -----

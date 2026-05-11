@@ -2,3 +2,8 @@
 *.swp
 *.swo
 *~
+
+# nix
+result
+result-*
+.direnv/

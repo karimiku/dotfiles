@@ -60,6 +60,12 @@ vim.opt.undodir = vim.fn.stdpath("data") .. "/undo"  -- undo履歴の保存場�
 vim.opt.splitbelow = true       -- 水平分割時に下に開く
 vim.opt.splitright = true       -- 垂直分割時に右に開く
 
+-- tmux pane リサイズ時に nvim 内の split を自動で均等再配分
+vim.api.nvim_create_autocmd("VimResized", {
+  pattern = "*",
+  command = "wincmd =",
+})
+
 -- その他
 vim.opt.mouse = "a"             -- マウスサポート
 vim.opt.wrap = false            -- 行の折り返しを無効化

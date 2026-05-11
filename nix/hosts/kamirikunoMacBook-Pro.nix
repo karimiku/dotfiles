@@ -64,10 +64,10 @@
       "raycast"
       "orbstack"
       "slack"
-      "dia"
       "codex"
       "line"
       "microsoft-outlook"
+      # NOTE: "dia" (Browser Company) は招待制ベータで brew 未登録、新Macでは手動DL
     ];
   };
 

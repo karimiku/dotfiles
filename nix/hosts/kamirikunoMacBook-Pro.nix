@@ -12,8 +12,8 @@
   system.primaryUser = "kamiriku";
   nixpkgs.hostPlatform = "aarch64-darwin";
 
-  # flakes & nix-command を有効化（Determinate Nix で既に有効だが宣言しておく）
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  # Determinate Nix と共存（Nix インストール自体は Determinate に任せる）
+  nix.enable = false;
 
   # このマシンで Nix を管理するユーザ
   users.users.kamiriku.home = "/Users/kamiriku";

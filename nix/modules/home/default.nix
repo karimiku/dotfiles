@@ -27,6 +27,12 @@ in
     ".gitignore".source = dot "git/dot-gitignore";
   };
 
+  # direnv: 公式統合（hook も自動セット、Nix 版 direnv が入る）
+  programs.direnv = {
+    enable = true;
+    nix-direnv.enable = true;
+  };
+
   # zsh: oh-my-zsh + plugins + theme を全部宣言的に
   programs.zsh = {
     enable = true;

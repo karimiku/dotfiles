@@ -53,5 +53,4 @@ gwtrmp() {
   git worktree remove "$dir" && git worktree prune
 }
 
-# direnv (nix-direnv 連携)
-eval "$(direnv hook zsh)"
+# NOTE: direnv hook は programs.direnv で自動セット済（home-manager 側）

@@ -17,9 +17,9 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 
 export PATH="$PATH:$HOME/.lmstudio/bin"
 export PATH="$HOME/.local/bin:$PATH"
-export PATH="/opt/homebrew/bin:$PATH"
 export PATH="$HOME/.antigravity/antigravity/bin:$PATH"
 export PATH="$PATH:$HOME/go/bin"
+# NOTE: /opt/homebrew/bin は profileExtra の brew shellenv で先頭に追加済
 
 # Env vars
 export CODEX_CLI_ALLOW=yes

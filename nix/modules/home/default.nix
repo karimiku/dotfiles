@@ -70,6 +70,9 @@ in
     # ユーザカスタム部分は別ファイルから source（ライブ編集のため）
     initContent = ''
       [ -r ~/dotfiles/zsh/dot-zshrc-extra ] && source ~/dotfiles/zsh/dot-zshrc-extra
+
+      # Nix を最優先（brew や他ツールが PATH を弄っても Nix CLI が勝つように）
+      export PATH="/run/current-system/sw/bin:/etc/profiles/per-user/$USER/bin:$HOME/.nix-profile/bin:$PATH"
     '';
   };
 }

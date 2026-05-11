@@ -63,12 +63,11 @@
       "ghostty"
       "raycast"
       "orbstack"
-      "slack"
       "codex"
-      "line"
-      "microsoft-outlook"
-      # NOTE: "dia" (Browser Company) は招待制ベータで brew 未登録、新Macでは手動DL
     ];
+    # NOTE: 以下は brew cask に存在しない/別ルートで入れる必要あり（README 参照）
+    #   - App Store: Microsoft Outlook / Slack / LINE
+    #   - 手動DL  : Dia (Browser Company, 招待制ベータ)
   };
 
   # ----- nix-darwin メタ情報 -----

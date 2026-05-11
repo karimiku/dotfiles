@@ -18,15 +18,58 @@ in
     "git/ignore".source    = dot "git/dot-config/git/ignore";
   };
 
-  # ~/ 直下のドットファイル
+  # ~/ 直下のドットファイル（zsh 系は programs.zsh 管理に移行したので除外）
   home.file = {
     ".tmux.conf".source = dot "tmux/dot-tmux.conf";
     ".vimrc".source     = dot "vim/dot-vimrc";
-    ".zshrc".source     = dot "zsh/dot-zshrc";
-    ".zshenv".source    = dot "zsh/dot-zshenv";
-    ".zprofile".source  = dot "zsh/dot-zprofile";
     ".p10k.zsh".source  = dot "zsh/dot-p10k.zsh";
     ".gitconfig".source = dot "git/dot-gitconfig";
     ".gitignore".source = dot "git/dot-gitignore";
+  };
+
+  # zsh: oh-my-zsh + plugins + theme を全部宣言的に
+  programs.zsh = {
+    enable = true;
+
+    oh-my-zsh = {
+      enable = true;
+      plugins = [ "git" ];
+    };
+
+    autosuggestion.enable = true;
+    syntaxHighlighting.enable = true;
+
+    plugins = [
+      {
+        # powerlevel10k テーマ本体
+        name = "powerlevel10k";
+        src = pkgs.zsh-powerlevel10k;
+        file = "share/zsh-powerlevel10k/powerlevel10k.zsh-theme";
+      }
+      {
+        # 括弧自動補完
+        name = "zsh-autopair";
+        src = pkgs.zsh-autopair;
+        file = "share/zsh/zsh-autopair/autopair.zsh";
+      }
+    ];
+
+    # ~/.zprofile 相当（login shell 起動時）
+    profileExtra = ''
+      eval "$(/opt/homebrew/bin/brew shellenv)"
+      source ~/.orbstack/shell/init.zsh 2>/dev/null || :
+    '';
+
+    # ~/.zshenv 相当（全 zsh 起動時、最初に評価）
+    envExtra = ''
+      [ -f "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"
+      export VOLTA_HOME="$HOME/.volta"
+      export PATH="$VOLTA_HOME/bin:$PATH"
+    '';
+
+    # ユーザカスタム部分は別ファイルから source（ライブ編集のため）
+    initContent = ''
+      [ -r ~/dotfiles/zsh/dot-zshrc-extra ] && source ~/dotfiles/zsh/dot-zshrc-extra
+    '';
   };
 }

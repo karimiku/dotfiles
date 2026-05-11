@@ -59,15 +59,12 @@
       upgrade = false;      # 既存のbrewパッケージを勝手にアップグレードしない
       cleanup = "none";     # 宣言してないものは触らない（安全側）
     };
+    # 最低限の GUI アプリのみ宣言的にインストール。
+    # 他（Slack/Outlook/LINE/Dia/OrbStack/Codex 等）は手動 or App Store。
     casks = [
       "ghostty"
       "raycast"
-      "orbstack"
-      "codex"
     ];
-    # NOTE: 以下は brew cask に存在しない/別ルートで入れる必要あり（README 参照）
-    #   - App Store: Microsoft Outlook / Slack / LINE
-    #   - 手動DL  : Dia (Browser Company, 招待制ベータ)
   };
 
   # ----- nix-darwin メタ情報 -----

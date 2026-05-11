@@ -90,11 +90,14 @@ sudo darwin-rebuild switch --flake .#kamirikunoMacBook-Pro
 - Dock のピン留めアプリ（Outlook / Mail / Dia / Slack / Codex / OrbStack / Raycast / LINE / Ghostty / System Settings）
 - スクリーンショット保存先を `~/screenshot` に固定
 
-### CLI ツール (environment.systemPackages, pure Nix)
-- tmux / neovim / fzf / ripgrep / figlet / go
+### CLI ツール + GUI アプリ (environment.systemPackages, pure Nix)
+- CLI: tmux / neovim / fzf / ripgrep / figlet / go
+- GUI: raycast（`/Applications/Nix Apps/` に配置）
 
-### GUI アプリ (homebrew casks)
-- ghostty / raycast
+### 唯一 Homebrew が残ってる: ghostty
+- ghostty 公式 flake は macOS 用に GUI app を提供してない（AppKit ビルドが Xcode tooling 依存）
+- そのため `ghostty` のみ `homebrew.casks` 経由で管理
+- これがある間は bootstrap 手順 2（brew install）が必要
 
 ### dotfile (home-manager)
 - `~/` 直下のドットファイル（p10k / tmux / vim / git 系）

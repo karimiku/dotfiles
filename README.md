@@ -1,6 +1,11 @@
 # karimiku/dotfiles
 
-macOS 環境を Nix で宣言的に管理。nix-darwin がシステム設定、home-manager が dotfiles を担当。
+macOS 環境を **Nix で宣言的に管理**。
+
+- **nix-darwin**: システム設定（キーボードリマップ / Dock / ダークモード / Homebrew casks 経由の GUI アプリインストール）
+- **home-manager**: dotfile シンボリックリンク / zsh 完全構築（oh-my-zsh + p10k + plugins）/ direnv
+
+`setup.sh` は廃止。すべて `darwin-rebuild switch` 1コマンドに統合。
 
 ## 新しい Mac へのセットアップ
 
@@ -8,24 +13,35 @@ macOS 環境を Nix で宣言的に管理。nix-darwin がシステム設定、h
 # 1. Determinate Nix を入れる
 curl -fsSL https://install.determinate.systems/nix | sh -s -- install
 
-# 2. このリポジトリを ~/dotfiles に clone
+# 2. Homebrew を入れる（cask 経由で ghostty/raycast を入れるため）
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+# 3. このリポジトリを ~/dotfiles に clone
 git clone https://github.com/karimiku/dotfiles.git ~/dotfiles
 
-# 3. nix-darwin で全部反映（システム設定 + dotfiles シンボリックリンク）
+# 4. 全部反映（システム設定 + dotfile + Nix パッケージ + Homebrew casks）
 sudo nix run nix-darwin/master#darwin-rebuild -- switch --flake ~/dotfiles#kamirikunoMacBook-Pro
-
-# 4. まだ Nix 化していない依存（brew / oh-my-zsh / plugin 類）を入れる
-~/dotfiles/setup.sh
 ```
 
-> ホスト名が違う Mac の場合は `#kamirikunoMacBook-Pro` の部分を新しい hostname に合わせて変更するか、flake に新ホスト config を追加する。
+> ホスト名が違う Mac の場合は `#kamirikunoMacBook-Pro` を新しい hostname に合わせるか、`nix/hosts/` に追加する。
+
+### Nix で配れないアプリ（手動 install）
+
+| アプリ | 入手元 |
+|---|---|
+| Microsoft Outlook | Mac App Store |
+| Slack | Mac App Store |
+| LINE | Mac App Store |
+| Dia | https://www.diabrowser.com/ (招待制ベータ) |
 
 ## 日常運用
 
 ### dotfile の中身を編集する
 
-`~/dotfiles/{zsh,nvim,tmux,...}/dot-*` を直接編集すれば即反映。
-`mkOutOfStoreSymlink` で `~/.zshrc → … → ~/dotfiles/zsh/dot-zshrc` の symlink チェーンが通っているので **rebuild 不要**。
+`~/dotfiles/{nvim,tmux,ghostty,starship,git,vim}/dot-*` を直接編集すれば即反映。
+`mkOutOfStoreSymlink` のおかげで `~/.tmux.conf → ... → ~/dotfiles/tmux/dot-tmux.conf` の symlink チェーンが live なので **rebuild 不要**。
+
+zsh のユーザカスタム（PATH/関数/env）も `zsh/dot-zshrc-extra` を直接編集 → 即反映。
 
 ### Nix 設定 (`flake.nix` / `nix/**`) を変更したとき
 
@@ -33,7 +49,7 @@ sudo nix run nix-darwin/master#darwin-rebuild -- switch --flake ~/dotfiles#kamir
 sudo darwin-rebuild switch --flake ~/dotfiles#kamirikunoMacBook-Pro
 ```
 
-### Nix の input を更新したいとき
+### Nix の input を更新（パッケージのアップグレード）
 
 ```bash
 cd ~/dotfiles && nix flake update
@@ -47,8 +63,8 @@ sudo darwin-rebuild switch --flake .#kamirikunoMacBook-Pro
 ├── flake.nix                            # Nix エントリポイント
 ├── flake.lock                           # input バージョン pin（commit 必須）
 ├── nix/
-│   ├── hosts/kamirikunoMacBook-Pro.nix  # nix-darwin 側（macOS システム設定）
-│   └── modules/home/default.nix         # home-manager 側（dotfile symlink）
+│   ├── hosts/kamirikunoMacBook-Pro.nix  # nix-darwin（macOS システム設定 + CLI + casks）
+│   └── modules/home/default.nix         # home-manager（dotfile + zsh + direnv）
 │
 ├── ghostty/dot-config/ghostty/          # → ~/.config/ghostty/
 ├── nvim/dot-config/nvim/                # → ~/.config/nvim/
@@ -58,31 +74,34 @@ sudo darwin-rebuild switch --flake .#kamirikunoMacBook-Pro
 ├── git/dot-gitignore                    # → ~/.gitignore
 ├── tmux/dot-tmux.conf                   # → ~/.tmux.conf
 ├── vim/dot-vimrc                        # → ~/.vimrc
-└── zsh/dot-{zshrc,zshenv,zprofile,p10k.zsh}  # → ~/.<name>
+└── zsh/
+    ├── dot-p10k.zsh                     # → ~/.p10k.zsh（p10k テーマ設定）
+    └── dot-zshrc-extra                  # programs.zsh.initContent から source される
 ```
 
 ## 現在 Nix が面倒を見てくれていること
 
-**システム設定 (nix-darwin):**
+### システム (nix-darwin)
 - Caps Lock → Control リマップ
 - キーリピート速度（爆速）/ 長押し連打有効化
 - ダークモード固定
 - 2本指スワイプでブラウザ戻る/進む 無効
 - Dock: 自動隠し / アイコンサイズ / マウスオーバー拡大
-- Dock のピン留めアプリ（Outlook / Mail / Dia / Slack / Codex / OrbStack / Raycast / LINE / Ghostty / System Settings 等）
+- Dock のピン留めアプリ（Outlook / Mail / Dia / Slack / Codex / OrbStack / Raycast / LINE / Ghostty / System Settings）
 - スクリーンショット保存先を `~/screenshot` に固定
 
-**dotfiles (home-manager):**
-- `~/` 直下の dotfile 8 個（zsh系 / tmux / vim / git）
-- `~/.config/` 配下の dir/file 4 個（ghostty / nvim / starship / git）
-- 編集はリポジトリ側を直接いじる（symlink チェーンで即反映、rebuild 不要）
+### CLI ツール (environment.systemPackages, pure Nix)
+- tmux / neovim / fzf / ripgrep / figlet / go
 
-## まだ Nix 化していない（`setup.sh` が必要）
+### GUI アプリ (homebrew casks)
+- ghostty / raycast
 
-- Homebrew パッケージ: `tmux`, `neovim`, `fzf`, `ripgrep`, `figlet`, `go`
-- Cask: `ghostty`
-- Oh My Zsh + Powerlevel10k
-- zsh プラグイン: zsh-autosuggestions, zsh-syntax-highlighting, zsh-autopair
-- vim-plug + Neovim プラグイン（lazy.nvim）
+### dotfile (home-manager)
+- `~/` 直下のドットファイル（p10k / tmux / vim / git 系）
+- `~/.config/` 配下（ghostty / nvim / starship / git）
 
-これらは順次 nix-darwin の `homebrew.brews` / home-manager の `programs.zsh.plugins` 等で置き換えていって、最終的に `setup.sh` を消すのが目標。
+### zsh まわり (programs.zsh)
+- oh-my-zsh + powerlevel10k + zsh-autosuggestions + zsh-syntax-highlighting + zsh-autopair
+- direnv + nix-direnv
+
+すべて宣言的にバージョンも含めて再現可能（`flake.lock` で pin）。

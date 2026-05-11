@@ -63,8 +63,19 @@ sudo darwin-rebuild switch --flake .#kamirikunoMacBook-Pro
 
 ## 現在 Nix が面倒を見てくれていること
 
-- macOS システム設定（例: Caps Lock → Control リマップ）
-- ホームディレクトリ配下のすべての dotfile シンボリックリンク
+**システム設定 (nix-darwin):**
+- Caps Lock → Control リマップ
+- キーリピート速度（爆速）/ 長押し連打有効化
+- ダークモード固定
+- 2本指スワイプでブラウザ戻る/進む 無効
+- Dock: 自動隠し / アイコンサイズ / マウスオーバー拡大
+- Dock のピン留めアプリ（Outlook / Mail / Dia / Slack / Codex / OrbStack / Raycast / LINE / Ghostty / System Settings 等）
+- スクリーンショット保存先を `~/screenshot` に固定
+
+**dotfiles (home-manager):**
+- `~/` 直下の dotfile 8 個（zsh系 / tmux / vim / git）
+- `~/.config/` 配下の dir/file 4 個（ghostty / nvim / starship / git）
+- 編集はリポジトリ側を直接いじる（symlink チェーンで即反映、rebuild 不要）
 
 ## まだ Nix 化していない（`setup.sh` が必要）
 

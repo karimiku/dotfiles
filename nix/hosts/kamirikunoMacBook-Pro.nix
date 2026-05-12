@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 
 {
   # ----- キーボード -----
@@ -43,13 +43,32 @@
   # GUI は /Applications/Nix Apps/ に配置。
   # アップデートは `nix flake update` → `darwin-rebuild switch`。
   environment.systemPackages = with pkgs; [
-    # CLI
+    # CLI (汎用)
     tmux
     neovim
+    vim
     fzf
+    fd
     ripgrep
     figlet
+    gh
+    git
+    starship
+    # 言語ランタイム / ビルドツール
     go
+    openjdk
+    python313
+    python314
+    yarn
+    # クラウド / インフラ
+    awscli2
+    terraform
+    # メディア
+    ffmpeg
+    # DB
+    mysql84
+    postgresql_16
+    (lib.lowPrio postgresql_14)  # 14 は lowPrio で衝突回避（必要時 `nix shell nixpkgs#postgresql_14`）
     # GUI (nixpkgs に darwin ビルドあり)
     raycast
   ];

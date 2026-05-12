@@ -3,3 +3,5 @@
 	email = kamicity.manriku@icloud.com
 [core]
 	autocrlf = false
+[credential]
+	helper = osxkeychain

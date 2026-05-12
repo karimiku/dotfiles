@@ -73,20 +73,6 @@
     raycast
   ];
 
-  # ----- Homebrew (ghostty 専用、他に手段なし) -----
-  # ghostty 公式 flake は macOS では libghostty-vt のみ提供で GUI app は出してない
-  # (AppKit ビルドが Xcode tooling 依存のため Nix 化できない)。
-  # → 現状 brew cask が唯一の実用解。raycast は Nix へ移行済。
-  homebrew = {
-    enable = true;
-    onActivation = {
-      autoUpdate = false;
-      upgrade = false;
-      cleanup = "none";
-    };
-    casks = [ "ghostty" ];
-  };
-
   # ----- nix-darwin メタ情報 -----
   system.stateVersion = 6;
   system.primaryUser = "kamiriku";

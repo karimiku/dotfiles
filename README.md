@@ -2,10 +2,10 @@
 
 macOS 環境を **Nix で宣言的に管理**。
 
-- **nix-darwin**: システム設定（キーボードリマップ / Dock / ダークモード / Homebrew casks 経由の GUI アプリインストール）
+- **nix-darwin**: システム設定（キーボードリマップ / Dock / ダークモード）+ CLI / GUI パッケージ（Nix）
 - **home-manager**: dotfile シンボリックリンク / zsh 完全構築（oh-my-zsh + p10k + plugins）/ direnv
 
-`setup.sh` は廃止。すべて `darwin-rebuild switch` 1コマンドに統合。
+`setup.sh` は廃止。Homebrew にも依存しない。すべて `darwin-rebuild switch` 1コマンドに統合。
 
 ## 新しい Mac へのセットアップ
 
@@ -13,13 +13,10 @@ macOS 環境を **Nix で宣言的に管理**。
 # 1. Determinate Nix を入れる
 curl -fsSL https://install.determinate.systems/nix | sh -s -- install
 
-# 2. Homebrew を入れる（cask 経由で ghostty/raycast を入れるため）
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-
-# 3. このリポジトリを ~/dotfiles に clone
+# 2. このリポジトリを ~/dotfiles に clone
 git clone https://github.com/karimiku/dotfiles.git ~/dotfiles
 
-# 4. 全部反映（システム設定 + dotfile + Nix パッケージ + Homebrew casks）
+# 3. 全部反映（システム設定 + dotfile + Nix パッケージ）
 sudo nix run nix-darwin/master#darwin-rebuild -- switch --flake ~/dotfiles#kamirikunoMacBook-Pro
 ```
 
@@ -29,6 +26,7 @@ sudo nix run nix-darwin/master#darwin-rebuild -- switch --flake ~/dotfiles#kamir
 
 | アプリ | 入手元 |
 |---|---|
+| Ghostty | https://ghostty.org/ （AppKit ビルドが Xcode tooling 依存で Nix 化できない） |
 | Microsoft Outlook | Mac App Store |
 | Slack | Mac App Store |
 | LINE | Mac App Store |
@@ -91,13 +89,12 @@ sudo darwin-rebuild switch --flake .#kamirikunoMacBook-Pro
 - スクリーンショット保存先を `~/screenshot` に固定
 
 ### CLI ツール + GUI アプリ (environment.systemPackages, pure Nix)
-- CLI: tmux / neovim / fzf / ripgrep / figlet / go
+- 汎用 CLI: tmux / neovim / vim / fzf / fd / ripgrep / figlet / gh / git / starship
+- 言語ランタイム: go / openjdk / python313 / python314 / yarn
+- クラウド/インフラ: awscli2 / terraform
+- メディア: ffmpeg
+- DB: mysql84 / postgresql_16（`postgresql_14` は `lowPrio` で同梱、必要時 `nix shell nixpkgs#postgresql_14`）
 - GUI: raycast（`/Applications/Nix Apps/` に配置）
-
-### 唯一 Homebrew が残ってる: ghostty
-- ghostty 公式 flake は macOS 用に GUI app を提供してない（AppKit ビルドが Xcode tooling 依存）
-- そのため `ghostty` のみ `homebrew.casks` 経由で管理
-- これがある間は bootstrap 手順 2（brew install）が必要
 
 ### dotfile (home-manager)
 - `~/` 直下のドットファイル（p10k / tmux / vim / git 系）

@@ -80,7 +80,6 @@ sudo darwin-rebuild switch --flake .#kamirikunoMacBook-Pro
 ## 現在 Nix が面倒を見てくれていること
 
 ### システム (nix-darwin)
-- Caps Lock → Control リマップ
 - キーリピート速度（爆速）/ 長押し連打有効化
 - ダークモード固定
 - 2本指スワイプでブラウザ戻る/進む 無効

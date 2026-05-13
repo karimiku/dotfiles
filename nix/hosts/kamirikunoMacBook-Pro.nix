@@ -1,12 +1,6 @@
 { pkgs, lib, ... }:
 
 {
-  # ----- キーボード -----
-  system.keyboard = {
-    enableKeyMapping = true;
-    remapCapsLockToControl = true;
-  };
-
   # ----- macOS Preferences (defaults) -----
   system.defaults = {
     NSGlobalDomain = {

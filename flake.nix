@@ -14,10 +14,10 @@
   };
 
   outputs = { self, nixpkgs, nix-darwin, home-manager }: {
-    darwinConfigurations."kamirikunoMacBook-Pro" = nix-darwin.lib.darwinSystem {
+    darwinConfigurations.mac = nix-darwin.lib.darwinSystem {
       system = "aarch64-darwin";
       modules = [
-        ./nix/hosts/kamirikunoMacBook-Pro.nix
+        ./nix/hosts/mac.nix
         home-manager.darwinModules.home-manager
         {
           home-manager.useGlobalPkgs = true;

@@ -17,10 +17,8 @@ curl -fsSL https://install.determinate.systems/nix | sh -s -- install
 git clone https://github.com/karimiku/dotfiles.git ~/dotfiles
 
 # 3. 全部反映（システム設定 + dotfile + Nix パッケージ）
-sudo nix run nix-darwin/master#darwin-rebuild -- switch --flake ~/dotfiles#kamirikunoMacBook-Pro
+sudo nix run nix-darwin/master#darwin-rebuild -- switch --flake ~/dotfiles#mac
 ```
-
-> ホスト名が違う Mac の場合は `#kamirikunoMacBook-Pro` を新しい hostname に合わせるか、`nix/hosts/` に追加する。
 
 ### Nix で配れないアプリ（手動 install）
 
@@ -44,14 +42,14 @@ zsh のユーザカスタム（PATH/関数/env）も `zsh/dot-zshrc-extra` を�
 ### Nix 設定 (`flake.nix` / `nix/**`) を変更したとき
 
 ```bash
-sudo darwin-rebuild switch --flake ~/dotfiles#kamirikunoMacBook-Pro
+sudo darwin-rebuild switch --flake ~/dotfiles#mac
 ```
 
 ### Nix の input を更新（パッケージのアップグレード）
 
 ```bash
 cd ~/dotfiles && nix flake update
-sudo darwin-rebuild switch --flake .#kamirikunoMacBook-Pro
+sudo darwin-rebuild switch --flake .#mac
 ```
 
 ## ディレクトリ構成
@@ -61,7 +59,7 @@ sudo darwin-rebuild switch --flake .#kamirikunoMacBook-Pro
 ├── flake.nix                            # Nix エントリポイント
 ├── flake.lock                           # input バージョン pin（commit 必須）
 ├── nix/
-│   ├── hosts/kamirikunoMacBook-Pro.nix  # nix-darwin（macOS システム設定 + CLI + casks）
+│   ├── hosts/mac.nix                    # nix-darwin（macOS システム設定 + CLI/GUI パッケージ）
 │   └── modules/home/default.nix         # home-manager（dotfile + zsh + direnv）
 │
 ├── ghostty/dot-config/ghostty/          # → ~/.config/ghostty/

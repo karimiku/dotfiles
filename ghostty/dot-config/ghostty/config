@@ -8,12 +8,9 @@ font-size = 14
 background = #00080c
 background-opacity = 0.8
 background-blur-radius = 0
-gtk-titlebar = false
-# custom-shader = /home/chris/bloom.glsl
-#custom-shader = /home/chris/crt.glsl
 
-# Start tmux session automaticallyn
-command = /opt/homebrew/bin/tmux new-session
+# Start tmux session automatically (Nix 版 tmux を使う)
+command = /run/current-system/sw/bin/tmux new-session
 
 # Tab management keybindings
 keybind = ctrl+t=new_tab

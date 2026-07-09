@@ -5,7 +5,8 @@ macOS 環境を **Nix で宣言的に管理**。
 - **nix-darwin**: システム設定（キーボードリマップ / Dock / ダークモード）+ CLI / GUI パッケージ（Nix）
 - **home-manager**: dotfile シンボリックリンク / zsh 完全構築（oh-my-zsh + p10k + plugins）/ direnv
 
-`setup.sh` は廃止。Homebrew にも依存しない。すべて `darwin-rebuild switch` 1コマンドに統合。
+`setup.sh` は廃止。CLI ツールと設定は `darwin-rebuild switch` 1コマンドに統合。
+Homebrew は GUI アプリ（cask: Ghostty / OrbStack / Codex 等）用に併用中。formula は Nix へ移行する方針。
 
 ## 新しい Mac へのセットアップ
 
@@ -20,11 +21,11 @@ git clone https://github.com/karimiku/dotfiles.git ~/dotfiles
 sudo nix run nix-darwin/master#darwin-rebuild -- switch --flake ~/dotfiles#mac
 ```
 
-### Nix で配れないアプリ（手動 install）
+### Nix で配れないアプリ（Homebrew cask / 手動 install）
 
 | アプリ | 入手元 |
 |---|---|
-| Ghostty | https://ghostty.org/ （AppKit ビルドが Xcode tooling 依存で Nix 化できない） |
+| Ghostty | `brew install --cask ghostty`（AppKit ビルドが Xcode tooling 依存で Nix 化できない） |
 | Microsoft Outlook | Mac App Store |
 | Slack | Mac App Store |
 | LINE | Mac App Store |
@@ -65,9 +66,8 @@ sudo darwin-rebuild switch --flake .#mac
 ├── ghostty/dot-config/ghostty/          # → ~/.config/ghostty/
 ├── nvim/dot-config/nvim/                # → ~/.config/nvim/
 ├── starship/dot-config/starship.toml    # → ~/.config/starship.toml
-├── git/dot-config/git/ignore            # → ~/.config/git/ignore
+├── git/dot-config/git/ignore            # → ~/.config/git/ignore（グローバル ignore）
 ├── git/dot-gitconfig                    # → ~/.gitconfig
-├── git/dot-gitignore                    # → ~/.gitignore
 ├── tmux/dot-tmux.conf                   # → ~/.tmux.conf
 ├── vim/dot-vimrc                        # → ~/.vimrc
 └── zsh/

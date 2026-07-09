@@ -24,6 +24,11 @@ export PATH="$PATH:$HOME/go/bin"
 # Env vars
 export CODEX_CLI_ALLOW=yes
 
+# dotfiles 運用ショートカット
+alias dot='cd ~/dotfiles'
+alias drs='sudo darwin-rebuild switch --flake ~/dotfiles#mac'  # Nix 設定を反映
+alias dru='cd ~/dotfiles && nix flake update && sudo darwin-rebuild switch --flake .#mac'  # パッケージ更新
+
 # p10k 設定をロード
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 

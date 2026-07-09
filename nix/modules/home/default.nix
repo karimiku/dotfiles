@@ -4,27 +4,29 @@ let
   # ~/dotfiles 直下の生ファイルへ直接 symlink を貼るヘルパー。
   # /nix/store にコピーしないので、編集したら即反映（rebuild不要）。
   dot = path: config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/${path}";
+
+  # ディレクトリ直下のエントリ名一覧（自動リンク用）
+  entriesOf = dir: builtins.attrNames (builtins.readDir dir);
 in
 {
   home.username = "kamiriku";
   home.homeDirectory = "/Users/kamiriku";
   home.stateVersion = "24.05";
 
-  # ~/.config/ 配下
-  xdg.configFile = {
-    "starship.toml".source = dot "starship/dot-config/starship.toml";
-    "ghostty".source       = dot "ghostty/dot-config/ghostty";
-    "nvim".source          = dot "nvim/dot-config/nvim";
-    "git/ignore".source    = dot "git/dot-config/git/ignore";
-  };
+  # config/ 配下を ~/.config/ へ自動リンク。
+  # 例: config/ghostty → ~/.config/ghostty、config/starship.toml → ~/.config/starship.toml
+  # 新しいツールの設定は config/ に置いて rebuild するだけでリンクされる。
+  xdg.configFile = builtins.listToAttrs (map (name: {
+    inherit name;
+    value.source = dot "config/${name}";
+  }) (entriesOf ../../../config));
 
-  # ~/ 直下のドットファイル（zsh 系は programs.zsh 管理に移行したので除外）
-  home.file = {
-    ".tmux.conf".source = dot "tmux/dot-tmux.conf";
-    ".vimrc".source     = dot "vim/dot-vimrc";
-    ".p10k.zsh".source  = dot "zsh/dot-p10k.zsh";
-    ".gitconfig".source = dot "git/dot-gitconfig";
-  };
+  # home/ 配下を ~/ 直下へ「.」付きで自動リンク。
+  # 例: home/tmux.conf → ~/.tmux.conf、home/gitconfig → ~/.gitconfig
+  home.file = builtins.listToAttrs (map (name: {
+    name = ".${name}";
+    value.source = dot "home/${name}";
+  }) (entriesOf ../../../home));
 
   # direnv: 公式統合（hook も自動セット、Nix 版 direnv が入る）
   programs.direnv = {
@@ -74,7 +76,7 @@ in
 
     # ユーザカスタム部分は別ファイルから source（ライブ編集のため）
     initContent = ''
-      [ -r ~/dotfiles/zsh/dot-zshrc-extra ] && source ~/dotfiles/zsh/dot-zshrc-extra
+      [ -r ~/dotfiles/zsh/zshrc-extra ] && source ~/dotfiles/zsh/zshrc-extra
 
       # Nix を最優先（brew や他ツールが PATH を弄っても Nix CLI が勝つように）
       export PATH="/run/current-system/sw/bin:/etc/profiles/per-user/$USER/bin:$HOME/.nix-profile/bin:$PATH"

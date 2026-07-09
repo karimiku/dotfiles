@@ -35,44 +35,53 @@ sudo nix run nix-darwin/master#darwin-rebuild -- switch --flake ~/dotfiles#mac
 
 ### dotfile の中身を編集する
 
-`~/dotfiles/{nvim,tmux,ghostty,starship,git,vim}/dot-*` を直接編集すれば即反映。
-`mkOutOfStoreSymlink` のおかげで `~/.tmux.conf → ... → ~/dotfiles/tmux/dot-tmux.conf` の symlink チェーンが live なので **rebuild 不要**。
+`config/` `home/` 配下のファイルを直接編集すれば即反映。
+`mkOutOfStoreSymlink` のおかげで `~/.tmux.conf → ~/dotfiles/home/tmux.conf` の symlink が live なので **rebuild 不要**。
 
-zsh のユーザカスタム（PATH/関数/env）も `zsh/dot-zshrc-extra` を直接編集 → 即反映。
+zsh のユーザカスタム（PATH/関数/env/alias）も `zsh/zshrc-extra` を直接編集 → 新しいシェルから即反映。
+
+### 新しいツールの設定を追加する
+
+置き場所ルールだけ覚えればいい。**nix ファイルの編集は不要**（自動でリンクされる）。
+
+- `~/.config/foo/` に置きたい → `config/foo/` を作って `drs`
+- `~/.foo` に置きたい → `home/foo` を作って `drs`（`.` は自動で付く）
 
 ### Nix 設定 (`flake.nix` / `nix/**`) を変更したとき
 
 ```bash
-sudo darwin-rebuild switch --flake ~/dotfiles#mac
+drs   # = sudo darwin-rebuild switch --flake ~/dotfiles#mac
 ```
 
 ### Nix の input を更新（パッケージのアップグレード）
 
 ```bash
-cd ~/dotfiles && nix flake update
-sudo darwin-rebuild switch --flake .#mac
+dru   # = nix flake update && darwin-rebuild switch
 ```
 
 ## ディレクトリ構成
 
 ```
 ~/dotfiles/
-├── flake.nix                            # Nix エントリポイント
-├── flake.lock                           # input バージョン pin（commit 必須）
+├── flake.nix                # Nix エントリポイント
+├── flake.lock               # input バージョン pin（commit 必須）
 ├── nix/
-│   ├── hosts/mac.nix                    # nix-darwin（macOS システム設定 + CLI/GUI パッケージ）
-│   └── modules/home/default.nix         # home-manager（dotfile + zsh + direnv）
+│   ├── hosts/mac.nix        # nix-darwin（macOS システム設定 + CLI/GUI パッケージ）
+│   └── modules/home/        # home-manager（dotfile 自動リンク + zsh + direnv）
 │
-├── ghostty/dot-config/ghostty/          # → ~/.config/ghostty/
-├── nvim/dot-config/nvim/                # → ~/.config/nvim/
-├── starship/dot-config/starship.toml    # → ~/.config/starship.toml
-├── git/dot-config/git/ignore            # → ~/.config/git/ignore（グローバル ignore）
-├── git/dot-gitconfig                    # → ~/.gitconfig
-├── tmux/dot-tmux.conf                   # → ~/.tmux.conf
-├── vim/dot-vimrc                        # → ~/.vimrc
-└── zsh/
-    ├── dot-p10k.zsh                     # → ~/.p10k.zsh（p10k テーマ設定）
-    └── dot-zshrc-extra                  # programs.zsh.initContent から source される
+├── config/                  # → ~/.config/ に自動リンク（ディレクトリ/ファイルを置くだけ）
+│   ├── ghostty/             #   → ~/.config/ghostty/
+│   ├── nvim/                #   → ~/.config/nvim/
+│   ├── git/ignore           #   → ~/.config/git/ignore（グローバル ignore）
+│   └── starship.toml        #   → ~/.config/starship.toml
+│
+├── home/                    # → ~/ 直下に「.」付きで自動リンク
+│   ├── gitconfig            #   → ~/.gitconfig
+│   ├── p10k.zsh             #   → ~/.p10k.zsh
+│   ├── tmux.conf            #   → ~/.tmux.conf
+│   └── vimrc                #   → ~/.vimrc
+│
+└── zsh/zshrc-extra          # ~/.zshrc から source（PATH/alias/関数のライブ編集用）
 ```
 
 ## 現在 Nix が面倒を見てくれていること

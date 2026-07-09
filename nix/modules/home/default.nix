@@ -24,7 +24,6 @@ in
     ".vimrc".source     = dot "vim/dot-vimrc";
     ".p10k.zsh".source  = dot "zsh/dot-p10k.zsh";
     ".gitconfig".source = dot "git/dot-gitconfig";
-    ".gitignore".source = dot "git/dot-gitignore";
   };
 
   # direnv: 公式統合（hook も自動セット、Nix 版 direnv が入る）

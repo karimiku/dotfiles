@@ -94,13 +94,15 @@ dru   # = nix flake update && darwin-rebuild switch
 - Dock のピン留めアプリ（Outlook / Mail / Dia / Slack / Codex / OrbStack / Raycast / LINE / Ghostty / System Settings）
 - スクリーンショット保存先を `~/screenshot` に固定
 
-### CLI ツール + GUI アプリ (environment.systemPackages, pure Nix)
+### CLI ツール (environment.systemPackages, pure Nix)
 - 汎用 CLI: tmux / neovim / vim / fzf / fd / ripgrep / figlet / gh / git / starship
 - 言語ランタイム: go / openjdk / python313 / python314 / yarn
 - クラウド/インフラ: awscli2 / terraform
 - メディア: ffmpeg
 - DB: mysql84 / postgresql_16（`postgresql_14` は `lowPrio` で同梱、必要時 `nix shell nixpkgs#postgresql_14`）
-- GUI: raycast（`/Applications/Nix Apps/` に配置）
+
+GUI アプリは Nix で配らない（tmux 内での rebuild が Full Disk Access エラーになるため）。
+Raycast 等は Homebrew cask で管理。
 
 ### dotfile (home-manager)
 - `~/` 直下のドットファイル（p10k / tmux / vim / git 系）

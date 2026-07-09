@@ -33,8 +33,9 @@
     screencapture.location = "~/screenshot";
   };
 
-  # ----- パッケージ (CLI + Nix で取れる GUI) -----
-  # GUI は /Applications/Nix Apps/ に配置。
+  # ----- パッケージ (CLI) -----
+  # GUI アプリは Homebrew cask で管理（Nix の app 配置は tmux 内 rebuild で
+  # Full Disk Access エラーになるため使わない）。
   # アップデートは `nix flake update` → `darwin-rebuild switch`。
   environment.systemPackages = with pkgs; [
     # CLI (汎用)
@@ -63,8 +64,6 @@
     mysql84
     postgresql_16
     (lib.lowPrio postgresql_14)  # 14 は lowPrio で衝突回避（必要時 `nix shell nixpkgs#postgresql_14`）
-    # GUI (nixpkgs に darwin ビルドあり)
-    raycast
   ];
 
   # ----- nix-darwin メタ情報 -----

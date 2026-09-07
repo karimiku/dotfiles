@@ -1,6 +1,6 @@
-[user]
-	name = kamiriku
-	email = kamicity.manriku@icloud.com
+# [user] はマシン毎に違う（個人/仕事）ので ~/.gitconfig.local に置く（Nix 管理外）
+[include]
+	path = ~/.gitconfig.local
 [core]
 	autocrlf = false
 [credential]

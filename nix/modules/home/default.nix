@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, username, ... }:
 
 let
   # ~/dotfiles 直下の生ファイルへ直接 symlink を貼るヘルパー。
@@ -9,8 +9,8 @@ let
   entriesOf = dir: builtins.attrNames (builtins.readDir dir);
 in
 {
-  home.username = "kamiriku";
-  home.homeDirectory = "/Users/kamiriku";
+  home.username = username;
+  home.homeDirectory = "/Users/${username}";
   home.stateVersion = "24.05";
 
   # config/ 配下を ~/.config/ へ自動リンク。
@@ -69,6 +69,8 @@ in
 
     # ~/.zshenv 相当（全 zsh 起動時、最初に評価）
     envExtra = ''
+      # マシン固有の環境変数（DOTFILES_HOST=work など）。Nix 管理外
+      [ -f "$HOME/.zshenv.local" ] && . "$HOME/.zshenv.local"
       [ -f "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"
       export VOLTA_HOME="$HOME/.volta"
       export PATH="$VOLTA_HOME/bin:$PATH"

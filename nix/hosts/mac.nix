@@ -1,81 +1,87 @@
-{ pkgs, lib, ... }:
+{ ... }:
 
+# 個人 Mac 専用: App Store アプリ / 趣味アプリ / 個人アカウント依存の launchd
 {
-  # ----- macOS Preferences (defaults) -----
-  system.defaults = {
-    NSGlobalDomain = {
-      KeyRepeat = 1;                                # 爆速キーリピート
-      ApplePressAndHoldEnabled = false;             # 長押しで連打入力
-      AppleInterfaceStyle = "Dark";                 # ダークモード
-      AppleEnableSwipeNavigateWithScrolls = false;  # 2本指でブラウザ戻る/進む 無効
-    };
-
-    dock = {
-      autohide = true;
-      tilesize = 51;
-      magnification = true;
-      largesize = 66;
-      persistent-apps = [
-        "/Applications/Microsoft Outlook.app"
-        "/System/Applications/Apps.app"
-        "/System/Applications/Mail.app"
-        "/Applications/Dia.app"
-        "/Applications/Slack.app"
-        "/Applications/Codex.app"
-        "/Applications/OrbStack.app"
-        "/Applications/Raycast.app"
-        "/Applications/LINE.app"
-        "/Applications/Ghostty.app"
-        "/System/Applications/System Settings.app"
-      ];
-    };
-
-    screencapture.location = "~/screenshot";
-  };
-
-  # ----- パッケージ (CLI) -----
-  # GUI アプリは Homebrew cask で管理（Nix の app 配置は tmux 内 rebuild で
-  # Full Disk Access エラーになるため使わない）。
-  # アップデートは `nix flake update` → `darwin-rebuild switch`。
-  environment.systemPackages = with pkgs; [
-    # CLI (汎用)
-    tmux
-    neovim
-    vim
-    fzf
-    fd
-    ripgrep
-    figlet
-    # gh は Homebrew で管理（nixpkgs の追従が遅く、最新機能を即使いたいため）
-    git
-    starship
-    # 言語ランタイム / ビルドツール
-    go
-    openjdk
-    python313
-    python314
-    yarn
-    # クラウド / インフラ
-    awscli2
-    terraform
-    # メディア
-    ffmpeg
-    # DB
-    mysql84
-    postgresql_16
-    (lib.lowPrio postgresql_14)  # 14 は lowPrio で衝突回避（必要時 `nix shell nixpkgs#postgresql_14`）
+  system.defaults.dock.persistent-apps = [
+    "/Applications/Microsoft Outlook.app"
+    "/System/Applications/Apps.app"
+    "/System/Applications/Mail.app"
+    "/Applications/Dia.app"
+    "/Applications/Slack.app"
+    "/Applications/OrbStack.app"
+    "/Applications/Raycast.app"
+    "/Applications/LINE.app"
+    "/Applications/Ghostty.app"
+    "/System/Applications/System Settings.app"
   ];
 
-  # ----- nix-darwin メタ情報 -----
-  system.stateVersion = 6;
-  system.primaryUser = "kamiriku";
-  nixpkgs.hostPlatform = "aarch64-darwin";
+  homebrew = {
+    casks = [
+      "iterm2"
+      "utm"
+      "kiro"
+      "discord"
+      "zoom"
+      "logi-options+"
+      "gimp"
+      "unity-hub"
+      "mactex-no-gui"
+      "obsidian"
+      # 手動インストール版とバージョンが違い adopt できないもの。
+      # 移行するときは `brew install --cask --force <name>` を打ってからここに戻す:
+      #   mysqlworkbench blender arduino-ide libreoffice
+    ];
+    # App Store (`mas list` の ID)。個人 Apple ID が必要
+    masApps = {
+      "Slack" = 803453959;
+      "LINE" = 539883307;
+      "Microsoft Outlook" = 985367838;
+      "Microsoft Word" = 462054704;
+      "Microsoft Excel" = 462058435;
+      "Microsoft PowerPoint" = 462062816;
+      "Keynote" = 409183694;
+      "Numbers" = 409203825;
+      "Pages" = 409201541;
+      "Kindle" = 302584613;
+      "Klack" = 6446206067;
+      "Contributions" = 1153432612;
+      "Stickies Pro" = 1482080766;
+    };
+  };
 
-  # Determinate Nix と共存（Nix インストール自体は Determinate に任せる）
-  nix.enable = false;
+  # ----- launchd (ユーザーエージェント) -----
+  # スクリプト本体は ~/.agents（Nix 管理外・個人用）/ ~/my_projects/mylife にある。
+  launchd.user.agents = let
+    home = "/Users/kamiriku";
+    job = script: log: cal: {
+      serviceConfig = {
+        ProgramArguments = [ "/bin/bash" script ];
+        StartCalendarInterval = [ cal ];
+        StandardOutPath = log;
+        StandardErrorPath = log;
+      };
+    };
+    kakeibo = "${home}/my_projects/mylife/.agents/skills/kakeibo";
+  in {
+    # 毎朝9時: 英語学習ノート（eigo スキル）
+    eigo = job "${home}/.agents/skills/eigo/scripts/run_daily.sh"
+               "${home}/.agents/skills/eigo/logs/launchd.log" { Hour = 9; Minute = 0; };
+    # 毎月1日 8:10: 家計簿
+    kakeibo = job "${kakeibo}/scripts/run_monthly.sh" "${kakeibo}/logs/launchd.log"
+                  { Day = 1; Hour = 8; Minute = 10; };
+    # 毎日 7:20: 家計簿 keepalive
+    kakeibo-keepalive = job "${kakeibo}/scripts/keepalive.sh" "${kakeibo}/logs/launchd.log"
+                            { Hour = 7; Minute = 20; };
+  };
 
-  # nixpkgs の unfree ライセンス（Slack 等）を許可
-  nixpkgs.config.allowUnfree = true;
-
-  users.users.kamiriku.home = "/Users/kamiriku";
+  # 手書きだった旧 plist（com.kamiriku.*）を掃除。Nix 側は org.nixos.* ラベルで登録されるので二重起動を防ぐ
+  system.activationScripts.postActivation.text = ''
+    for l in com.kamiriku.eigo com.kamiriku.kakeibo com.kamiriku.kakeibo-keepalive; do
+      p="/Users/kamiriku/Library/LaunchAgents/$l.plist"
+      if [ -f "$p" ]; then
+        launchctl bootout "gui/$(id -u kamiriku)/$l" 2>/dev/null || true
+        rm -f "$p"
+      fi
+    done
+  '';
 }

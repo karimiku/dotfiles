@@ -1,2 +1,2 @@
 # p10k configure で自動生成される巨大ファイル。言語統計から除外。
-zsh/dot-p10k.zsh linguist-generated=true
+home/p10k.zsh linguist-generated=true

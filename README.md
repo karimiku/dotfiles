@@ -44,7 +44,13 @@ macOS 環境を **Nix で宣言的に管理**。個人 Mac（`#mac`）と仕事�
    - `~/.gitconfig.local`: `[user]` セクション（name / email）
    - **仕事用 PC のみ**: `~/.zshenv.local` に `export DOTFILES_HOST=work`
 
-7. **初回適用**
+7. **（既存 Mac に初めて当てる場合）キーボードショートカットのバックアップ**
+   `CustomUserPreferences` は `com.apple.symbolichotkeys` の辞書を丸ごと書き換えるため、他にカスタムしたショートカットがあると初期値に戻る。
+   ```bash
+   defaults export com.apple.symbolichotkeys ~/Desktop/symbolichotkeys-backup.plist
+   ```
+
+8. **初回適用**
    ```bash
    sudo nix run nix-darwin/master#darwin-rebuild -- switch --flake ~/dotfiles#mac
    ```

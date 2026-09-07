@@ -16,6 +16,9 @@
   ];
 
   homebrew = {
+    # 趣味・課題用の formula（第三者 tap 含む。work には入れない）
+    taps = [ "randomplum/gtkwave" ];
+    brews = [ "clisp" "swi-prolog" "icarus-verilog" "randomplum/gtkwave/gtkwave" "povray" ];
     casks = [
       "iterm2"
       "utm"

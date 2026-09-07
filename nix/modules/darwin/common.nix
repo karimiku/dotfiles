@@ -79,7 +79,6 @@
     taps = [
       "homebrew/services"
       "ngrok/ngrok"
-      "randomplum/gtkwave"
     ];
     # formula: `brew leaves` から Nix 管理分（tmux neovim go figlet）を除いたもの
     brews = [
@@ -111,11 +110,6 @@
       "nkf"
       "grok"
       "gtk+3"
-      "clisp"
-      "swi-prolog"
-      "icarus-verilog"
-      "randomplum/gtkwave/gtkwave"
-      "povray"
     ];
     # GUI アプリ（開発・仕事で使う共通分）
     casks = [

@@ -56,6 +56,10 @@ macOS 環境を **Nix で宣言的に管理**。個人 Mac（`#mac`）と仕事�
    ```
    （仕事用は `#work`）
 
+   `nix: command not found` と出たら、Nix インストール直後で PATH が未反映なだけ。ターミナルを開き直すか
+   `. /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh` を実行。`sudo nix` だけ見つからない場合は
+   `sudo /nix/var/nix/profiles/default/bin/nix run ...` とフルパスで叩く（初回のみ）。
+
 `brew bundle` は既に手で入っている .app を自動で adopt する。手動版とバージョンが違う場合だけ失敗するので、
 その時は `brew install --cask --force <name>` を打ってから cask リストに戻す（現在この理由で外しているのは
 mysqlworkbench / blender / arduino-ide / libreoffice。`nix/hosts/mac.nix` にメモあり）。

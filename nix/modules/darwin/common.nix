@@ -77,7 +77,6 @@
       cleanup = "none";  # 宣言外を勝手に消さない（慣れたら "zap" に）
     };
     taps = [
-      "homebrew/services"
     ];
     # 全ホスト共通の最小セット。それ以外は hosts/mac.nix
     brews = [

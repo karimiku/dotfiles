@@ -5,7 +5,6 @@
   system.defaults.dock.persistent-apps = [
     "/Applications/Dia.app"
     "/Applications/Slack.app"
-    "/Applications/OrbStack.app"
     "/Applications/Raycast.app"
     "/Applications/Ghostty.app"
     "/System/Applications/System Settings.app"

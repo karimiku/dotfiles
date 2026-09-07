@@ -161,9 +161,9 @@ tmux / neovim / vim / fzf / fd / ripgrep / figlet / git / starship / go / openjd
 
 ### GUI アプリ（Homebrew cask）
 
-Ghostty / Dia / Cursor / OrbStack / Docker Desktop / TablePlus / Postman / draw.io / gcloud-cli / ngrok / Wireshark / Claude / ChatGPT / Arc / Chrome / Firefox / Figma / Tailscale / Raycast / Stats / SwiftBar / Ice / MonitorControl（+ フォント）
+全ホスト共通: Ghostty / Dia / Raycast / Claude / Slack（+ Nerd Font）
 
-個人 Mac のみ追加: iTerm2 / UTM / Kiro / Discord / Zoom / Logi Options / GIMP / Unity Hub / MacTeX / Obsidian
+個人 Mac のみ追加: OrbStack / TablePlus / Cursor / Docker Desktop / Postman / draw.io / gcloud-cli / ngrok / Wireshark / iTerm2 / UTM / Kiro / ChatGPT / Chrome / Firefox / Discord / Zoom / Figma / Stats / SwiftBar / Ice / MonitorControl / Logi Options+ / GIMP / Unity Hub / MacTeX / Obsidian
 
 ### App Store（masApps・個人 Mac のみ）
 

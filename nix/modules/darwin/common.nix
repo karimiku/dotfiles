@@ -103,9 +103,7 @@
       "ghostty"
       "raycast"
       "thebrowsercompany-dia"
-      "orbstack"
       "claude"
-      "tableplus"
       "font-meslo-lg-nerd-font"
     ];
   };

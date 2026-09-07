@@ -15,8 +15,16 @@
 
   outputs = { self, nixpkgs, nix-darwin, home-manager }:
     let
-      # ホスト定義ヘルパー。username は macOS のログインユーザー名（`whoami`）。
-      mkHost = { username, modules }: nix-darwin.lib.darwinSystem {
+      # ログインユーザー名を自動検出（`--impure` 付きで評価したときだけ有効）。
+      # sudo 経由なら SUDO_USER が本人。取れなければ kamiriku。
+      detectedUser =
+        let
+          su = builtins.getEnv "SUDO_USER";
+          u = builtins.getEnv "USER";
+        in if su != "" then su else if u != "" then u else "kamiriku";
+
+      # ホスト定義ヘルパー。username 未指定なら自動検出
+      mkHost = { username ? detectedUser, modules }: nix-darwin.lib.darwinSystem {
         system = "aarch64-darwin";
         specialArgs = { inherit username; };
         modules = [
@@ -35,8 +43,8 @@
       darwinConfigurations = {
         # 個人 Mac（フル構成）
         mac = mkHost { username = "kamiriku"; modules = [ ./nix/hosts/mac.nix ]; };
-        # 別 PC（仕事用）。ユーザー名が違う場合はここを `whoami` の値に変える
-        work = mkHost { username = "opm008490"; modules = [ ./nix/hosts/work.nix ]; };
+        # 別 PC（仕事用）。ユーザー名はそのPCのログイン名を自動検出（drs は --impure 付き）
+        work = mkHost { modules = [ ./nix/hosts/work.nix ]; };
       };
     };
 }

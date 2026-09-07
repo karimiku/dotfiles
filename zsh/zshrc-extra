@@ -27,8 +27,8 @@ export CODEX_CLI_ALLOW=yes
 # dotfiles 運用ショートカット
 alias dot='cd ~/dotfiles'
 # どのホスト定義を使うかは ~/.zshenv.local の DOTFILES_HOST で切替（既定: mac）
-alias drs='sudo darwin-rebuild switch --flake ~/dotfiles#${DOTFILES_HOST:-mac}'  # Nix 設定を反映
-alias dru='cd ~/dotfiles && nix flake update && sudo darwin-rebuild switch --flake .#${DOTFILES_HOST:-mac}'  # パッケージ更新
+alias drs='sudo darwin-rebuild switch --impure --flake ~/dotfiles#${DOTFILES_HOST:-mac}'  # Nix 設定を反映
+alias dru='cd ~/dotfiles && nix flake update && sudo darwin-rebuild switch --impure --flake .#${DOTFILES_HOST:-mac}'  # パッケージ更新
 
 # p10k 設定をロード
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh

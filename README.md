@@ -38,7 +38,7 @@ macOS 環境を **Nix で宣言的に管理**。個人 Mac（`#mac`）と仕事�
    git clone https://github.com/karimiku/dotfiles.git ~/dotfiles
    ```
    パスは必ず `~/dotfiles`（`mkOutOfStoreSymlink` がこのパスを固定で参照している）。
-   ログインユーザー名が `kamiriku` でない PC では `flake.nix` の `work = mkHost { username = ...; }` を `whoami` の値に変える。
+   `#work` のユーザー名はそのPCのログイン名を自動検出する（`--impure` が必要。`drs` には付いている）。
 
 6. **マシン固有ファイルの作成**
    - `~/.gitconfig.local`: `[user]` セクション（name / email）
@@ -52,7 +52,7 @@ macOS 環境を **Nix で宣言的に管理**。個人 Mac（`#mac`）と仕事�
 
 8. **初回適用**
    ```bash
-   sudo nix run nix-darwin/master#darwin-rebuild -- switch --flake ~/dotfiles#mac
+   sudo nix run nix-darwin/master#darwin-rebuild -- switch --impure --flake ~/dotfiles#mac
    ```
    （仕事用は `#work`）
 
@@ -104,7 +104,7 @@ vim ~/dotfiles/config/nvim/init.lua  # → ~/.config/nvim/init.lua が即反映
 ### Nix 設定を変更したとき
 
 ```bash
-drs   # = sudo darwin-rebuild switch --flake ~/dotfiles#${DOTFILES_HOST:-mac}
+drs   # = sudo darwin-rebuild switch --impure --flake ~/dotfiles#${DOTFILES_HOST:-mac}
 ```
 
 `DOTFILES_HOST` が未設定なら `mac` を使用。仕事用 PC では `~/.zshenv.local` で設定。
@@ -112,7 +112,7 @@ drs   # = sudo darwin-rebuild switch --flake ~/dotfiles#${DOTFILES_HOST:-mac}
 ### パッケージをアップグレード
 
 ```bash
-dru   # = cd ~/dotfiles && nix flake update && sudo darwin-rebuild switch --flake .#${DOTFILES_HOST:-mac}
+dru   # = cd ~/dotfiles && nix flake update && sudo darwin-rebuild switch --impure --flake .#${DOTFILES_HOST:-mac}
 ```
 
 ## ディレクトリ構成

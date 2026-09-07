@@ -48,6 +48,8 @@
       "gtk+3"
     ];
     casks = [
+      "orbstack"
+      "tableplus"
       "cursor"
       "docker-desktop"
       "postman"
@@ -56,7 +58,6 @@
       "ngrok"
       "wireshark-app"
       "chatgpt"
-      "arc"
       "google-chrome"
       "firefox"
       "figma"

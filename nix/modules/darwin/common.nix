@@ -78,64 +78,24 @@
     };
     taps = [
       "homebrew/services"
-      "ngrok/ngrok"
     ];
-    # formula: `brew leaves` から Nix 管理分（tmux neovim go figlet）を除いたもの
+    # 全ホスト共通の最小セット。それ以外は hosts/mac.nix
     brews = [
       "mas"
-      "gh"                 # nixpkgs の追従が遅いので brew
+      "gh"
       "jq"
       "uv"
       "lazygit"
-      "glow"
-      "httpie"
-      "pandoc"
-      "poppler"
-      "weasyprint"
       "mkcert"
-      "protobuf"
-      "sqlc"
-      "semgrep"
-      "watchman"
-      "ollama"
-      "cocoapods"
-      "maven"
-      "git-filter-repo"
-      "cloud-sql-proxy"
-      "wireguard-tools"
-      "smartmontools"
-      "gnuplot"
-      "jp2a"
-      "lv"
-      "nkf"
-      "grok"
-      "gtk+3"
     ];
-    # GUI アプリ（開発・仕事で使う共通分）
+    # GUI アプリ（全ホスト共通の最小セット）
     casks = [
       "ghostty"
-      "cursor"
-      "orbstack"
-      "docker-desktop"
-      "tableplus"
-      "postman"
-      "drawio"
-      "gcloud-cli"
-      "ngrok"
-      "wireshark-app"
-      "claude"
-      "chatgpt"
-      "thebrowsercompany-dia"   # Dia ブラウザ
-      "arc"
-      "google-chrome"
-      "firefox"
-      "figma"
-      "tailscale-app"
       "raycast"
-      "stats"
-      "swiftbar"
-      "jordanbaird-ice"
-      "monitorcontrol"
+      "thebrowsercompany-dia"
+      "orbstack"
+      "claude"
+      "tableplus"
       "font-meslo-lg-nerd-font"
     ];
   };

@@ -16,10 +16,54 @@
   ];
 
   homebrew = {
-    # 趣味・課題用の formula（第三者 tap 含む。work には入れない）
-    taps = [ "randomplum/gtkwave" ];
-    brews = [ "clisp" "swi-prolog" "icarus-verilog" "randomplum/gtkwave/gtkwave" "povray" ];
+    # 個人 Mac だけに入れる formula（common.nix の最小セット以外すべて）
+    taps = [ "randomplum/gtkwave" "ngrok/ngrok" ];
+    brews = [
+      "clisp"
+      "swi-prolog"
+      "icarus-verilog"
+      "randomplum/gtkwave/gtkwave"
+      "povray"
+      "glow"
+      "httpie"
+      "pandoc"
+      "poppler"
+      "weasyprint"
+      "protobuf"
+      "sqlc"
+      "semgrep"
+      "watchman"
+      "ollama"
+      "cocoapods"
+      "maven"
+      "git-filter-repo"
+      "cloud-sql-proxy"
+      "wireguard-tools"
+      "smartmontools"
+      "gnuplot"
+      "jp2a"
+      "lv"
+      "nkf"
+      "grok"
+      "gtk+3"
+    ];
     casks = [
+      "cursor"
+      "docker-desktop"
+      "postman"
+      "drawio"
+      "gcloud-cli"
+      "ngrok"
+      "wireshark-app"
+      "chatgpt"
+      "arc"
+      "google-chrome"
+      "firefox"
+      "figma"
+      "stats"
+      "swiftbar"
+      "jordanbaird-ice"
+      "monitorcontrol"
       "iterm2"
       "utm"
       "kiro"
@@ -30,9 +74,6 @@
       "unity-hub"
       "mactex-no-gui"
       "obsidian"
-      # 手動インストール版とバージョンが違い adopt できないもの。
-      # 移行するときは `brew install --cask --force <name>` を打ってからここに戻す:
-      #   mysqlworkbench blender arduino-ide libreoffice
     ];
     # App Store (`mas list` の ID)。個人 Apple ID が必要
     masApps = {

@@ -2,6 +2,12 @@
 
 # 全ホスト共通: macOS 設定 / CLI パッケージ / Homebrew の共通分
 {
+  # ----- キーボード: CapsLock → Control -----
+  system.keyboard = {
+    enableKeyMapping = true;
+    remapCapsLockToControl = true;
+  };
+
   # ----- macOS Preferences (defaults) -----
   system.defaults = {
     NSGlobalDomain = {

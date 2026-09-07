@@ -36,6 +36,11 @@
       };
       # Raycast を ⌘Space に
       "com.raycast.macos".raycastGlobalHotkey = "Command-49";
+      # 日本語IME: ライブ変換オフ / 句読点で自動確定しない
+      "com.apple.inputmethod.Kotoeri" = {
+        JIMPrefLiveConversionKey = 0;
+        JIMPrefConvertWithPunctuationKey = 0;
+      };
     };
   };
 

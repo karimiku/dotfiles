@@ -36,7 +36,7 @@
         # 個人 Mac（フル構成）
         mac = mkHost { username = "kamiriku"; modules = [ ./nix/hosts/mac.nix ]; };
         # 別 PC（仕事用）。ユーザー名が違う場合はここを `whoami` の値に変える
-        work = mkHost { username = "kamiriku"; modules = [ ./nix/hosts/work.nix ]; };
+        work = mkHost { username = "opm008490"; modules = [ ./nix/hosts/work.nix ]; };
       };
     };
 }

@@ -51,7 +51,6 @@
       "orbstack"
       "tableplus"
       "cursor"
-      "docker-desktop"
       "postman"
       "drawio"
       "gcloud-cli"

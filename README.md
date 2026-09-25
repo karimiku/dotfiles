@@ -117,10 +117,10 @@ dru   # = cd ~/dotfiles && nix flake update && sudo darwin-rebuild switch --impu
 ├── flake.nix                           # エントリポイント（mac / work 定義）
 ├── flake.lock                          # input バージョン pin
 ├── nix/
-│   ├── modules/darwin/common.nix       # 全ホスト共通（macOS 設定 / CLI pkg / Homebrew）
+│   ├── modules/darwin/common.nix       # 全ホスト共通（macOS 設定 / 設定が前提にする最小 CLI / 共通 cask）
 │   └── hosts/
-│       ├── mac.nix                     # 個人 Mac（App Store / launchd / 趣味アプリ）
-│       └── work.nix                    # 仕事用 PC（個人要素除去）
+│       ├── mac.nix                     # 個人 Mac（開発ツール / App Store / launchd / 趣味アプリ）
+│       └── work.nix                    # 仕事用 PC（設定のみ。開発ツールと個人要素は持ち込まない）
 │
 ├── config/                             # → ~/.config/ に自動リンク
 │   ├── ghostty/
@@ -148,9 +148,13 @@ dru   # = cd ~/dotfiles && nix flake update && sudo darwin-rebuild switch --impu
 
 ### CLI ツール（pure Nix）
 
-tmux / vim / fzf / fd / ripgrep / figlet / git / go / openjdk / python313 / python314 / yarn / awscli2 / terraform / ffmpeg / mysql84 / postgresql_16（postgresql_14 は lowPrio）
+全ホスト共通: tmux / git（dotfile の設定が前提にしているものだけ）
 
-※ `gh` は Homebrew 管理（nixpkgs の追従が遅いため）
+個人 Mac のみ: vim / fzf / fd / ripgrep / figlet / go / openjdk / python313 / python314 / yarn / awscli2 / terraform / ffmpeg / mysql84 / postgresql_16（postgresql_14 は lowPrio）
+
+開発ツールは PC ごとに入れる方針なので、仕事用 PC には持っていかない。
+
+※ `gh` / `jq` / `uv` / `lazygit` / `mkcert` / `mas` は Homebrew 管理（個人 Mac のみ。`gh` は nixpkgs の追従が遅いため）
 
 ### GUI アプリ（Homebrew cask）
 

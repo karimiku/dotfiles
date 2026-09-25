@@ -1,6 +1,6 @@
 { ... }:
 
-# 別 PC（仕事用）: 個人アカウント依存のもの（App Store / launchd / 趣味アプリ）を含まない
+# 別 PC（仕事用）: 設定と macOS 設定だけ。開発ツールと個人アカウント依存のもの（App Store / launchd / 趣味アプリ）は含まない
 {
   system.defaults.dock.persistent-apps = [
     "/Applications/Dia.app"

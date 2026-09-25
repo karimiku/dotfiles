@@ -1,6 +1,6 @@
 { pkgs, lib, username, ... }:
 
-# 全ホスト共通: macOS 設定 / CLI パッケージ / Homebrew の共通分
+# 全ホスト共通: macOS 設定 / 設定ファイルが前提にする最小 CLI / Homebrew の共通分
 {
   # ----- キーボード: CapsLock → Control -----
   system.keyboard = {
@@ -47,31 +47,11 @@
   # ----- パッケージ (CLI, pure Nix) -----
   # GUI アプリは Homebrew cask で管理（Nix の app 配置は tmux 内 rebuild で
   # Full Disk Access エラーになるため使わない）。
+  # 全ホスト共通は「dotfiles の設定が前提にしているもの」だけ。
+  # 開発ツールは PC ごとに入れる方針なので hosts/mac.nix 側に置く。
   environment.systemPackages = with pkgs; [
-    # CLI (汎用)
-    tmux
-    vim
-    fzf
-    fd
-    ripgrep
-    figlet
-    # gh は Homebrew で管理（nixpkgs の追従が遅く、最新機能を即使いたいため）
-    git
-    # 言語ランタイム / ビルドツール
-    go
-    openjdk
-    python313
-    python314
-    yarn
-    # クラウド / インフラ
-    awscli2
-    terraform
-    # メディア
-    ffmpeg
-    # DB
-    mysql84
-    postgresql_16
-    (lib.lowPrio postgresql_14)  # 14 は lowPrio で衝突回避（必要時 `nix shell nixpkgs#postgresql_14`）
+    tmux  # home/tmux.conf、Ghostty / Orca からの自動起動が /run/current-system/sw/bin/tmux を使う
+    git   # home/gitconfig、flake の取得
   ];
 
   # ----- Homebrew (nix-darwin が brew bundle を実行) -----
@@ -87,15 +67,8 @@
     };
     taps = [
     ];
-    # 全ホスト共通の最小セット。それ以外は hosts/mac.nix
-    brews = [
-      "mas"
-      "gh"
-      "jq"
-      "uv"
-      "lazygit"
-      "mkcert"
-    ];
+    # CLI は PC ごとに入れる方針なので全部 hosts/mac.nix 側
+    brews = [ ];
     # GUI アプリ（全ホスト共通の最小セット）
     casks = [
       "ghostty"

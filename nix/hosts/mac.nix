@@ -1,7 +1,33 @@
-{ ... }:
+{ pkgs, lib, ... }:
 
-# 個人 Mac 専用: App Store アプリ / 趣味アプリ / 個人アカウント依存の launchd
+# 個人 Mac 専用: 開発ツール / App Store アプリ / 趣味アプリ / 個人アカウント依存の launchd
 {
+  # 開発ツール（CLI, pure Nix）。仕事用 PC には持っていかない
+  environment.systemPackages = with pkgs; [
+    # CLI (汎用)
+    vim
+    fzf
+    fd
+    ripgrep
+    figlet
+    # gh は Homebrew で管理（nixpkgs の追従が遅く、最新機能を即使いたいため）
+    # 言語ランタイム / ビルドツール
+    go
+    openjdk
+    python313
+    python314
+    yarn
+    # クラウド / インフラ
+    awscli2
+    terraform
+    # メディア
+    ffmpeg
+    # DB
+    mysql84
+    postgresql_16
+    (lib.lowPrio postgresql_14)  # 14 は lowPrio で衝突回避（必要時 `nix shell nixpkgs#postgresql_14`）
+  ];
+
   system.defaults.dock.persistent-apps = [
     "/Applications/Microsoft Outlook.app"
     "/System/Applications/Apps.app"
@@ -16,9 +42,15 @@
   ];
 
   homebrew = {
-    # 個人 Mac だけに入れる formula（common.nix の最小セット以外すべて）
+    # 個人 Mac だけに入れる formula
     taps = [ "randomplum/gtkwave" "ngrok/ngrok" ];
     brews = [
+      "mas"
+      "gh"
+      "jq"
+      "uv"
+      "lazygit"
+      "mkcert"
       "clisp"
       "swi-prolog"
       "icarus-verilog"

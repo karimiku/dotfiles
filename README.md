@@ -72,11 +72,6 @@ mysqlworkbench / blender / arduino-ide / libreoffice。`nix/hosts/mac.nix` に�
 - AWS 認証情報
 - Raycast 設定（Settings → Advanced → Export/Import）
 - Claude Code（`curl -fsSL https://claude.ai/install.sh | bash`）
-- volta + Node.js + pnpm
-  ```bash
-  curl https://get.volta.sh | bash
-  volta install node@26 pnpm
-  ```
 - 日本語入力ソース（システム設定 → キーボード → 入力ソース）
 - **個人 Mac のみ**:
   - `~/.agents`（git 管理外・個人アカウント依存、別途コピー）
@@ -91,7 +86,7 @@ mysqlworkbench / blender / arduino-ide / libreoffice。`nix/hosts/mac.nix` に�
 ```bash
 # 編集例
 vim ~/dotfiles/home/tmux.conf  # → ~/.tmux.conf がリアルタイム更新
-vim ~/dotfiles/config/nvim/init.lua  # → ~/.config/nvim/init.lua が即反映
+vim ~/dotfiles/config/ghostty/config  # → ~/.config/ghostty/config が即反映
 ```
 
 ### 新しいツール設定の追加
@@ -129,8 +124,6 @@ dru   # = cd ~/dotfiles && nix flake update && sudo darwin-rebuild switch --impu
 │
 ├── config/                             # → ~/.config/ に自動リンク
 │   ├── ghostty/
-│   ├── nvim/
-│   ├── starship.toml
 │   └── ...
 │
 ├── home/                               # → ~/ に「.」付きで自動リンク
@@ -155,7 +148,7 @@ dru   # = cd ~/dotfiles && nix flake update && sudo darwin-rebuild switch --impu
 
 ### CLI ツール（pure Nix）
 
-tmux / neovim / vim / fzf / fd / ripgrep / figlet / git / starship / go / openjdk / python313 / python314 / yarn / awscli2 / terraform / ffmpeg / mysql84 / postgresql_16（postgresql_14 は lowPrio）
+tmux / vim / fzf / fd / ripgrep / figlet / git / go / openjdk / python313 / python314 / yarn / awscli2 / terraform / ffmpeg / mysql84 / postgresql_16（postgresql_14 は lowPrio）
 
 ※ `gh` は Homebrew 管理（nixpkgs の追従が遅いため）
 

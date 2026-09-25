@@ -5,10 +5,6 @@ case ":$PATH:" in
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
-
 [ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
@@ -20,9 +16,6 @@ export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/.antigravity/antigravity/bin:$PATH"
 export PATH="$PATH:$HOME/go/bin"
 # NOTE: /opt/homebrew/bin は profileExtra の brew shellenv で先頭に追加済
-
-# Env vars
-export CODEX_CLI_ALLOW=yes
 
 # dotfiles 運用ショートカット
 alias dot='cd ~/dotfiles'

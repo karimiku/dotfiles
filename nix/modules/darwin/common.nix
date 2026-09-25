@@ -50,7 +50,6 @@
   environment.systemPackages = with pkgs; [
     # CLI (汎用)
     tmux
-    neovim
     vim
     fzf
     fd
@@ -58,7 +57,6 @@
     figlet
     # gh は Homebrew で管理（nixpkgs の追従が遅く、最新機能を即使いたいため）
     git
-    starship
     # 言語ランタイム / ビルドツール
     go
     openjdk

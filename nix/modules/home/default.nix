@@ -72,8 +72,6 @@ in
       # マシン固有の環境変数（DOTFILES_HOST=work など）。Nix 管理外
       [ -f "$HOME/.zshenv.local" ] && . "$HOME/.zshenv.local"
       [ -f "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"
-      export VOLTA_HOME="$HOME/.volta"
-      export PATH="$VOLTA_HOME/bin:$PATH"
     '';
 
     # ユーザカスタム部分は別ファイルから source（ライブ編集のため）

@@ -102,8 +102,6 @@
       "discord"
       "zoom"
       "logi-options+"
-      "gimp"
-      "unity-hub"
       "mactex-no-gui"
       "obsidian"
       "karabiner-elements"  # config/karabiner: Orca で Ctrl+Q/W/E/R タブ切り替え・Ctrl+A プレフィックスのペイン操作

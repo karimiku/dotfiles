@@ -34,6 +34,15 @@
         enabled = false;
         value = { parameters = [ 32 49 1048576 ]; type = "standard"; };
       };
+      # Mission Control(⌃↑) / アプリケーションウインドウ(⌃↓) を無効化（Orca のワークツリー移動に譲る）
+      "com.apple.symbolichotkeys".AppleSymbolicHotKeys."32" = {
+        enabled = false;
+        value = { parameters = [ 65535 126 8650752 ]; type = "standard"; };
+      };
+      "com.apple.symbolichotkeys".AppleSymbolicHotKeys."33" = {
+        enabled = false;
+        value = { parameters = [ 65535 125 8650752 ]; type = "standard"; };
+      };
       # Raycast を ⌘Space に
       "com.raycast.macos".raycastGlobalHotkey = "Command-49";
       # 日本語IME: ライブ変換オフ / 句読点で自動確定しない

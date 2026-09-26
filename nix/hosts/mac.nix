@@ -106,6 +106,7 @@
       "unity-hub"
       "mactex-no-gui"
       "obsidian"
+      "karabiner-elements"  # config/karabiner: Orca で Ctrl+Q/W/E/R タブ切り替え・Ctrl+A プレフィックスのペイン操作
     ];
     # App Store (`mas list` の ID)。個人 Apple ID が必要
     masApps = {

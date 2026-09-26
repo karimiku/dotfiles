@@ -1,9 +1,10 @@
-# Orca のターミナルでは tmux を自動起動（Ghostty の command = tmux new-session 相当）
-# エージェント/Quick Command のタブは Orca が ORCA_POSIX_SHELL_STARTUP_COMMAND で
-# コマンドを渡してくるので、そこは素の zsh のまま（exec すると起動コマンドが消える）
-if [[ $TERM_PROGRAM == Orca && -z $TMUX && -z ${ORCA_POSIX_SHELL_STARTUP_COMMAND+x} ]]; then
-  exec /run/current-system/sw/bin/tmux new-session
-fi
+# Orca のターミナルでの tmux 自動起動は停止中（2026-09-26）。
+# Orca のペイン管理と tmux が二重になり、画面サイズのずれ・IME 表示のはみ出し・Ctrl+A の衝突が起きたため。
+# Orca のタブ/ペインは Orca に任せ、tmux は Ghostty（command = tmux new-session）でだけ使う。
+# 戻すときは下の 3 行のコメントを外す。
+# if [[ $TERM_PROGRAM == Orca && -z $TMUX && -z ${ORCA_POSIX_SHELL_STARTUP_COMMAND+x} ]]; then
+#   exec /run/current-system/sw/bin/tmux new-session
+# fi
 
 # PATH 追加 (各種言語/ツールマネージャ)
 export PNPM_HOME="$HOME/Library/pnpm"

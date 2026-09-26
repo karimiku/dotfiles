@@ -7,3 +7,6 @@
 result
 result-*
 .direnv/
+
+# Karabiner が自動で作るバックアップ
+config/karabiner/automatic_backups/

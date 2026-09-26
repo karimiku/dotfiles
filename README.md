@@ -124,6 +124,7 @@ dru   # = cd ~/dotfiles && nix flake update && sudo darwin-rebuild switch --impu
 │
 ├── config/                             # → ~/.config/ に自動リンク
 │   ├── ghostty/
+│   ├── karabiner/                      # Orca 用キー変換（Ctrl+Q/W/E/R タブ・Ctrl+A プレフィックスのペイン操作）
 │   └── ...
 │
 ├── home/                               # → ~/ に「.」付きで自動リンク
@@ -143,6 +144,7 @@ dru   # = cd ~/dotfiles && nix flake update && sudo darwin-rebuild switch --impu
 - ダークモード固定
 - 2本指スワイプでブラウザ戻る/進む 無効
 - Spotlight の ⌘Space 無効化（Raycast に譲る）
+- Mission Control の ⌃↑ / アプリケーションウインドウの ⌃↓ 無効化（Orca のワークツリー移動に譲る）
 - Dock: 自動隠し / アイコンサイズ / マウスオーバー拡大 / ピン留めアプリ
 - スクリーンショット保存先を `~/screenshot` に固定
 
@@ -160,7 +162,7 @@ dru   # = cd ~/dotfiles && nix flake update && sudo darwin-rebuild switch --impu
 
 全ホスト共通: Ghostty / Dia / Raycast / Claude / Slack（+ Nerd Font）
 
-個人 Mac のみ追加: OrbStack / TablePlus / Cursor / Docker Desktop / Postman / draw.io / gcloud-cli / ngrok / Wireshark / iTerm2 / UTM / Kiro / ChatGPT / Chrome / Firefox / Discord / Zoom / Figma / Stats / SwiftBar / Ice / MonitorControl / Logi Options+ / MacTeX / Obsidian
+個人 Mac のみ追加: OrbStack / TablePlus / Cursor / Docker Desktop / Postman / draw.io / gcloud-cli / ngrok / Wireshark / iTerm2 / UTM / Kiro / ChatGPT / Chrome / Firefox / Discord / Zoom / Figma / Stats / SwiftBar / Ice / MonitorControl / Logi Options+ / MacTeX / Obsidian / Karabiner-Elements
 
 ### App Store（masApps・個人 Mac のみ）
 

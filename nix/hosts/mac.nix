@@ -102,8 +102,6 @@
       "discord"
       "zoom"
       "logi-options+"
-      "gimp"
-      "unity-hub"
       "mactex-no-gui"
       "obsidian"
     ];

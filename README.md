@@ -158,11 +158,13 @@ dru   # = cd ~/dotfiles && nix flake update && sudo darwin-rebuild switch --impu
 
 ※ `gh` / `jq` / `uv` / `lazygit` / `mkcert` / `mas` は Homebrew 管理（個人 Mac のみ。`gh` は nixpkgs の追従が遅いため）
 
+※ Docker は Colima + Homebrew の `docker` / `docker-compose` / `docker-buildx`（個人 Mac のみ）。初回は `~/.docker/config.json` に `"cliPluginsExtraDirs": ["/opt/homebrew/lib/docker/cli-plugins"]` を足し、`colima start --vm-type vz --vz-rosetta --mount-type virtiofs --mount-inotify --cpu 6 --memory 4 --disk 100` で VM を作る。以降は `docker` を打てば `bin/docker` ラッパーが Colima を自動起動し、30分使われなければ launchd の `colima-idle-stop` が止める
+
 ### GUI アプリ（Homebrew cask）
 
 全ホスト共通: Ghostty / Dia / Raycast / Claude / Slack（+ Nerd Font）
 
-個人 Mac のみ追加: OrbStack / TablePlus / Cursor / Docker Desktop / Postman / draw.io / gcloud-cli / ngrok / Wireshark / iTerm2 / UTM / Kiro / ChatGPT / Chrome / Firefox / Discord / Zoom / Figma / Stats / SwiftBar / Ice / MonitorControl / Logi Options+ / MacTeX / Obsidian / Karabiner-Elements
+個人 Mac のみ追加: TablePlus / Cursor / Postman / draw.io / gcloud-cli / ngrok / Wireshark / iTerm2 / UTM / Kiro / ChatGPT / Chrome / Firefox / Discord / Zoom / Figma / Stats / SwiftBar / Ice / MonitorControl / Logi Options+ / MacTeX / Obsidian / Karabiner-Elements
 
 ### App Store（masApps・個人 Mac のみ）
 

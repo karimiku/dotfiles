@@ -1,0 +1,29 @@
+#!/bin/bash
+# docker / docker-compose のラッパー。Colima が止まっていたら起動してから本物を実行する。
+# ~/.local/bin/docker と ~/.local/bin/docker-compose からこのファイルにリンクされる。
+# 使われた時刻を ~/.colima/.last-used に残し、colima-idle-stop が自動停止の判断に使う。
+set -u
+
+real="/opt/homebrew/bin/$(basename "$0")"
+sock="$HOME/.colima/default/docker.sock"
+
+# デーモンが要らないコマンドでは VM を起こさない
+case "${1:-}" in
+  ""|-v|--version|-h|--help|help|context|completion) exec "$real" "$@" ;;
+esac
+
+alive() { /usr/bin/curl -sf --max-time 1 --unix-socket "$sock" http://localhost/_ping >/dev/null 2>&1; }
+
+if ! alive; then
+  # 複数のセッションから同時に呼ばれても起動は1回だけ
+  /usr/bin/lockf -k "$HOME/.colima/.autostart.lock" /bin/bash -c '
+    sock="$1"
+    /usr/bin/curl -sf --max-time 1 --unix-socket "$sock" http://localhost/_ping >/dev/null 2>&1 && exit 0
+    echo "Colima を起動しています…" >&2
+    log="$HOME/.colima/autostart.log"
+    /opt/homebrew/bin/colima start >"$log" 2>&1 || { cat "$log" >&2; exit 1; }
+  ' _ "$sock" || exit 1
+fi
+
+touch "$HOME/.colima/.last-used"
+exec "$real" "$@"

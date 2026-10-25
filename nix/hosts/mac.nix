@@ -34,7 +34,6 @@
     "/System/Applications/Mail.app"
     "/Applications/Dia.app"
     "/Applications/Slack.app"
-    "/Applications/OrbStack.app"
     "/Applications/Raycast.app"
     "/Applications/LINE.app"
     "/Applications/Ghostty.app"
@@ -78,9 +77,14 @@
       "nkf"
       "grok"
       "gtk+3"
+      # Docker 環境（OrbStack は商用利用が有料のため Colima に移行）
+      "colima"
+      "docker"
+      "docker-compose"
+      "docker-buildx"
+      "docker-credential-helper"
     ];
     casks = [
-      "orbstack"
       "tableplus"
       "cursor"
       "postman"
@@ -147,6 +151,21 @@
     # 毎日 7:20: 家計簿 keepalive
     kakeibo-keepalive = job "${kakeibo}/scripts/keepalive.sh" "${kakeibo}/logs/launchd.log"
                             { Hour = 7; Minute = 20; };
+    # 5分おき: 30分使われていない Colima を止める（起動は bin/docker ラッパーが必要なときに行う）
+    colima-idle-stop.serviceConfig = {
+      ProgramArguments = [ "/bin/bash" "${home}/dotfiles/bin/colima-idle-stop" ];
+      StartInterval = 300;
+      StandardOutPath = "${home}/.colima/idle-stop.log";
+      StandardErrorPath = "${home}/.colima/idle-stop.log";
+    };
+  };
+
+  # docker を叩いたら Colima を自動起動するラッパーを、Homebrew の docker より先に PATH が通る ~/.local/bin に置く
+  home-manager.users.kamiriku = { config, ... }: let
+    wrapper = config.lib.file.mkOutOfStoreSymlink "/Users/kamiriku/dotfiles/bin/docker";
+  in {
+    home.file.".local/bin/docker".source = wrapper;
+    home.file.".local/bin/docker-compose".source = wrapper;
   };
 
   # 手書きだった旧 plist（com.kamiriku.*）を掃除。Nix 側は org.nixos.* ラベルで登録されるので二重起動を防ぐ

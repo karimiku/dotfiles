@@ -1,0 +1,26 @@
+#!/bin/bash
+# launchd から5分おきに呼ばれる。起動中のコンテナが無く、docker も使われない状態が
+# IDLE_MIN 分続いたら Colima を止める。起動は bin/docker ラッパーが必要なときに行う。
+set -u
+
+idle_min="${IDLE_MIN:-30}"
+sock="$HOME/.colima/default/docker.sock"
+last="$HOME/.colima/.last-used"
+
+# 止まっていれば何もしない
+/usr/bin/curl -sf --max-time 2 --unix-socket "$sock" http://localhost/_ping >/dev/null 2>&1 || exit 0
+
+# 起動中のコンテナがあれば「使用中」として時刻を更新。応答が無いときも止めずに様子を見る
+running=$(/usr/bin/curl -sf --max-time 10 --unix-socket "$sock" http://localhost/containers/json) || exit 0
+if [ "$running" != "[]" ]; then
+  touch "$last"
+  exit 0
+fi
+
+[ -f "$last" ] || { touch "$last"; exit 0; }
+
+idle_sec=$(( $(date +%s) - $(stat -f %m "$last") ))
+if [ "$idle_sec" -ge $(( idle_min * 60 )) ]; then
+  echo "$(date '+%F %T') ${idle_min}分以上使われていないので Colima を停止"
+  /opt/homebrew/bin/colima stop
+fi

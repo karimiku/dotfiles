@@ -64,7 +64,6 @@ in
     # ~/.zprofile 相当（login shell 起動時）
     profileExtra = ''
       eval "$(/opt/homebrew/bin/brew shellenv)"
-      source ~/.orbstack/shell/init.zsh 2>/dev/null || :
     '';
 
     # ~/.zshenv 相当（全 zsh 起動時、最初に評価）

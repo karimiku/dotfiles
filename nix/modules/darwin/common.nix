@@ -85,6 +85,7 @@
       "thebrowsercompany-dia"
       "claude"
       "font-meslo-lg-nerd-font"
+      "karabiner-elements"  # #mac/#work 共通。config/karabiner: Orca で Ctrl+Q/W/E/R タブ切り替え・Ctrl+A プレフィックスのペイン操作
     ];
   };
 

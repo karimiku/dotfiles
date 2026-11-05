@@ -77,6 +77,18 @@ mysqlworkbench / blender / arduino-ide / libreoffice。`nix/hosts/mac.nix` に�
   - `~/.agents`（git 管理外・個人アカウント依存、別途コピー）
   - Codex（`npm i -g @openai/codex` + `~/.codex/config.toml` をコピー）
 
+### 仕事用 PC（`#work` / 貸与 PC）の手動セットアップ
+
+個人アカウントは持ち込まない。以下は Nix / Homebrew では入らないので手で行う。
+
+- [ ] **Orca**: Homebrew cask は存在しない（`orca` cask は plotly 製の別アプリ）。公式サイトから手動でインストールする。個人アカウントでサインインしない。
+- [ ] **Karabiner-Elements**: 初回起動時に「入力監視」「アクセシビリティ」「ドライバ拡張」の権限を許可する。
+- [ ] **Raycast**: 個人 Mac で Raycast Settings → Advanced → Export し、`.rayconfig` を AirDrop で貸与 PC に送って Import する。個人の Raycast ログインはしない。
+- [ ] **Dia**: ショートカット同期は個人アカウントが必要なので、Dia Settings → Shortcuts で手動設定する。個人の Dia ログインはしない。
+  - New Tab = `⌃T`
+  - Developer Tools = `` ⌘` ``
+  - プロファイル切り替え: 個人 Mac では Switch to Profile 1/2/3 = `⌃Q` / `⌃W` / `⌃E`。貸与 PC では存在する仕事用プロファイルに同じキーを割り当てる。
+
 ## 日常運用
 
 ### dotfile の編集（rebuild 不要）

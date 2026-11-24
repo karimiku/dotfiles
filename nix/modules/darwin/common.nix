@@ -86,6 +86,7 @@
       "claude"
       "font-meslo-lg-nerd-font"
       "karabiner-elements"  # #mac/#work 共通。config/karabiner: Orca で Ctrl+Q/W/E/R タブ切り替え・Ctrl+A プレフィックスのペイン操作
+      "hammerspoon"         # #mac/#work 共通。home/hammerspoon: 右クリック+トラックボールで縦横スクロール
     ];
   };
 

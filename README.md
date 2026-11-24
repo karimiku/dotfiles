@@ -73,6 +73,7 @@ mysqlworkbench / blender / arduino-ide / libreoffice。`nix/hosts/mac.nix` に�
 - Raycast 設定（Settings → Advanced → Export/Import）
 - Claude Code（`curl -fsSL https://claude.ai/install.sh | bash`）
 - 日本語入力ソース（システム設定 → キーボード → 入力ソース）
+- Hammerspoon: 初回起動時にアクセシビリティを許可する（許可するまで右クリックスクロールが効かない）
 - **個人 Mac のみ**:
   - `~/.agents`（git 管理外・個人アカウント依存、別途コピー）
   - Codex（`npm i -g @openai/codex` + `~/.codex/config.toml` をコピー）
@@ -142,6 +143,7 @@ dru   # = cd ~/dotfiles && nix flake update && sudo darwin-rebuild switch --impu
 ├── home/                               # → ~/ に「.」付きで自動リンク
 │   ├── gitconfig                       # [user] は include で ~/.gitconfig.local から読む
 │   ├── tmux.conf
+│   ├── hammerspoon/                    # 右クリック押しながらトラックボールで縦横スクロール
 │   ├── p10k.zsh
 │   └── ...
 │
@@ -174,7 +176,7 @@ dru   # = cd ~/dotfiles && nix flake update && sudo darwin-rebuild switch --impu
 
 ### GUI アプリ（Homebrew cask）
 
-全ホスト共通: Ghostty / Dia / Raycast / Claude / Slack（+ Nerd Font）
+全ホスト共通: Ghostty / Dia / Raycast / Claude / Slack / Karabiner-Elements / Hammerspoon（+ Nerd Font）
 
 個人 Mac のみ追加: TablePlus / Cursor / Postman / draw.io / gcloud-cli / ngrok / Wireshark / iTerm2 / UTM / Kiro / ChatGPT / Chrome / Firefox / Discord / Zoom / Figma / Stats / SwiftBar / Ice / MonitorControl / Logi Options+ / MacTeX / Obsidian / Karabiner-Elements
 
